@@ -1,0 +1,37 @@
+[
+  {
+    "httpRequest": { "method": "GET", "path": "/sts/v2/menu" },
+    "httpResponse": {
+      "statusCode": 200,
+      "headers": { "Content-Type": [ "application/json" ] },
+      "body": {
+        "revenueCenterId": "RC-1",
+        "currency": "USD",
+        "categories": [
+          {
+            "id": "CAT-BURGERS",
+            "name": "Burgers",
+            "items": [
+              { "sku": "RS-BURGER", "name": "Classic Burger", "price": 14.0 },
+              { "sku": "RS-CHEESE", "name": "Cheeseburger", "price": 15.0 }
+            ]
+          },
+          {
+            "id": "CAT-SIDES",
+            "name": "Sides",
+            "items": [
+              { "sku": "RS-FRIES", "name": "Fries", "price": 5.0 },
+              { "sku": "RS-SALAD", "name": "Side Salad", "price": 6.0 }
+            ]
+          }
+        ],
+        "taxRate": 0.09,
+        "serviceRate": 0.10
+      }
+    }
+  },
+  {
+    "httpRequest": { "path": { "regex": "/sts/v2/checks(.*)" } },
+    "httpForward": { "host": "simphony-state", "port": 5000, "scheme": "HTTP" }
+  }
+]

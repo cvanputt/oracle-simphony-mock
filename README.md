@@ -1,0 +1,133 @@
+Here’s a polished **`README.md`** you can drop into the root of your repo. It covers setup, build, run, and smoke test usage so anyone can get this mock Simphony + OPERA environment running quickly.
+
+---
+
+# Oracle Hospitality Mock Environment
+
+This project emulates **Oracle Simphony (POS)** and **OPERA (PMS)** integrations using [MockServer](https://www.mock-server.com/) for HTTP routing plus lightweight **state services** (Node/Express) that persist data to JSON files.
+
+It lets you build and test against a realistic local mock of:
+
+* **Simphony Transaction Services** (checks, menu, tenders)
+* **OPERA guest lookup** and **folio posting**
+* Automatic folio posting when Simphony tenders a check to **Room Charge**, just like **Simphony OPERA Connection** in production
+* Configurable **transaction codes** (env-driven)
+
+---
+
+## Prerequisites
+
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* [curl](https://curl.se/) and [jq](https://stedolan.github.io/jq/) (for smoke tests)
+
+---
+
+## Setup
+
+1. Clone this repo and `cd` into it.
+2. Create persistent data files for the state services:
+
+```bash
+mkdir -p data
+echo '{}' > data/simphony.json
+echo '{}' > data/opera.json
+```
+
+3. Build and start everything:
+
+```bash
+docker compose up -d --build
+```
+
+---
+
+## Services & Ports
+
+| Service        | Host URL                                       | Purpose                                    |
+| -------------- | ---------------------------------------------- | ------------------------------------------ |
+| mock-simphony  | [http://localhost:4010](http://localhost:4010) | Simphony mock (menu, checks, tenders)      |
+| mock-opera     | [http://localhost:4020](http://localhost:4020) | OPERA mock (guests, folios)                |
+| simphony-state | [http://localhost:5101](http://localhost:5101) | Stateful datastore for Simphony checks     |
+| opera-state    | [http://localhost:5102](http://localhost:5102) | Stateful datastore for OPERA folios/guests |
+
+> **Note:** Your app should call `http://localhost:4010` (Simphony) and `http://localhost:4020` (OPERA).
+> The state services are behind the scenes and not called directly in production-like usage.
+
+---
+
+## Environment Variables
+
+You can tune behavior by editing `docker-compose.yml`:
+
+* **`SIMPHONY_AUTO_POST`**
+
+  * `true` → When Simphony tenders a check with `ROOM_CHARGE`, the service automatically posts the charge to OPERA (production-like).
+  * `false` → Simphony closes the check but your app must call OPERA’s folio API itself.
+
+* **`SIMPHONY_TRANSACTION_CODE`**
+
+  * Default transaction code used when posting folio charges (e.g. `ROOM_SERVICE`, `MINIBAR`).
+  * Can be overridden per-request by passing `transactionCode` in the tender payload.
+
+---
+
+## Smoke Test
+
+Run these commands end-to-end to confirm everything works:
+
+### 1. Seed a Guest in OPERA
+
+```bash
+curl -s -X POST http://localhost:5102/__seed/guest \
+  -H 'Content-Type: application/json' \
+  -d '{"room":"203","lastName":"Nguyen","reservationId":"RES-555","guestName":"Taylor Nguyen"}' | jq .
+```
+
+### 2. Fetch Menu (via Simphony Mock)
+
+```bash
+curl -s http://localhost:4010/sts/v2/menu | jq .
+```
+
+### 3. Create a Check
+
+```bash
+CHK=$(curl -s -X POST http://localhost:4010/sts/v2/checks | jq -r .checkId)
+echo "Check ID: $CHK"
+```
+
+### 4. Add Items to Check
+
+```bash
+curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/items \
+  -H 'Content-Type: application/json' \
+  -d '{"items":[{"sku":"RS-BURGER","qty":1},{"sku":"RS-FRIES","qty":1}]}' | jq .
+```
+
+### 5. Tender to Room Charge (auto-posts to OPERA)
+
+```bash
+curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/tenders \
+  -H 'Content-Type: application/json' \
+  -d '{"type":"ROOM_CHARGE","roomNumber":"203","lastName":"Nguyen"}' | jq .
+```
+
+### 6. Verify Folio in OPERA
+
+```bash
+curl -s http://localhost:4020/opera/v1/folios/RES-555 | jq .
+```
+
+Expected result: the folio shows a new line with your transaction code (default: `ROOM_SERVICE`) and the total amount of the order.
+
+---
+
+## Notes
+
+* All state (checks, guests, folios) is persisted in `./data/*.json` so it survives container restarts.
+* Use `SIMPHONY_AUTO_POST=false` if you want to test manual folio posting workflows.
+* Use `transactionCode` in the tender payload to override the environment default.
+
+---
+
+Would you like me to also add a **section with sample request/response payloads** (like a mini API reference) to the README so developers know exactly what to send and expect for each endpoint?

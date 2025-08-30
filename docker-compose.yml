@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  mock-simphony:
+    image: mockserver/mockserver:5.15.0
+    container_name: mock-simphony
+    ports:
+      - "4010:1080" # Simphony mock on localhost:4010
+    environment:
+      MOCKSERVER_SERVER_PORT: "1080"
+      MOCKSERVER_LOG_LEVEL: "INFO"
+      MOCKSERVER_PERSIST_EXPECTATIONS: "true"
+      MOCKSERVER_PERSISTED_EXPECTATIONS_PATH: "/config/expectations.json"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: "/config/init.json"
+    volumes:
+      - ./mocks/simphony:/config
+    depends_on:
+      - simphony-state
+
+  mock-opera:
+    image: mockserver/mockserver:5.15.0
+    container_name: mock-opera
+    ports:
+      - "4020:1080" # OPERA mock on localhost:4020
+    environment:
+      MOCKSERVER_SERVER_PORT: "1080"
+      MOCKSERVER_LOG_LEVEL: "INFO"
+      MOCKSERVER_PERSIST_EXPECTATIONS: "true"
+      MOCKSERVER_PERSISTED_EXPECTATIONS_PATH: "/config/expectations.json"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: "/config/init.json"
+    volumes:
+      - ./mocks/opera:/config
+    depends_on:
+      - opera-state
+
+  simphony-state:
+    build:
+      context: ./state/simphony
+      dockerfile: Dockerfile
+    container_name: simphony-state
+    environment:
+      SIMPHONY_AUTO_POST: "true"             # emulate Simphony → OPERA posting on ROOM_CHARGE
+      SIMPHONY_TRANSACTION_CODE: "ROOM_SERVICE"  # default posting code (override per run)
+    ports:
+      - "5101:5000" # mac-safe host port
+    volumes:
+      - ./data/simphony.json:/app/data/simphony.json
+    depends_on:
+      - opera-state
+
+  opera-state:
+    build:
+      context: ./state/opera
+      dockerfile: Dockerfile
+    container_name: opera-state
+    ports:
+      - "5102:5000" # mac-safe host port
+    volumes:
+      - ./data/opera.json:/app/data/opera.json
+
+networks:
+  default:
+    name: oracle-mocks
