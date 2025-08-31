@@ -1,0 +1,65 @@
+[ {
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/opera/v1/guests",
+    "queryStringParameters" : {
+      "room" : [ "203" ],
+      "lastName" : [ "(?i)Nguyen" ]
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "reservationId" : "RES-555",
+      "folioWindow" : 1,
+      "guestName" : "Taylor Nguyen",
+      "roomNumber" : "203",
+      "inHouse" : true
+    }
+  },
+  "id" : "b6262246-0fd5-3ab5-bd8d-e862b76587bf",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "opera-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "path" : "/opera/v1/guests"
+  },
+  "id" : "19c7f4a8-f6c9-3af8-9f5d-4cb57ec1c9a4",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "opera-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "path" : "/opera/v1/folios/.*"
+  },
+  "id" : "4b8937de-cafc-32fe-ba3b-d5014b4baaa4",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+} ]

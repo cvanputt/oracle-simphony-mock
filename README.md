@@ -1,24 +1,20 @@
-Here’s a polished **`README.md`** you can drop into the root of your repo. It covers setup, build, run, and smoke test usage so anyone can get this mock Simphony + OPERA environment running quickly.
-
----
-
 # Oracle Hospitality Mock Environment
 
 This project emulates **Oracle Simphony (POS)** and **OPERA (PMS)** integrations using [MockServer](https://www.mock-server.com/) for HTTP routing plus lightweight **state services** (Node/Express) that persist data to JSON files.
 
 It lets you build and test against a realistic local mock of:
 
-* **Simphony Transaction Services** (checks, menu, tenders)
-* **OPERA guest lookup** and **folio posting**
-* Automatic folio posting when Simphony tenders a check to **Room Charge**, just like **Simphony OPERA Connection** in production
-* Configurable **transaction codes** (env-driven)
+- **Simphony Transaction Services** (checks, menu, tenders)
+- **OPERA guest lookup** and **folio posting**
+- Automatic folio posting when Simphony tenders a check to **Room Charge**, just like **Simphony OPERA Connection** in production
+- Configurable **transaction codes** (env-driven)
 
 ---
 
 ## Prerequisites
 
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-* [curl](https://curl.se/) and [jq](https://stedolan.github.io/jq/) (for smoke tests)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [curl](https://curl.se/) and [jq](https://stedolan.github.io/jq/) (for smoke tests)
 
 ---
 
@@ -59,15 +55,15 @@ docker compose up -d --build
 
 You can tune behavior by editing `docker-compose.yml`:
 
-* **`SIMPHONY_AUTO_POST`**
+- **`SIMPHONY_AUTO_POST`**
 
-  * `true` → When Simphony tenders a check with `ROOM_CHARGE`, the service automatically posts the charge to OPERA (production-like).
-  * `false` → Simphony closes the check but your app must call OPERA’s folio API itself.
+  - `true` → When Simphony tenders a check with `ROOM_CHARGE`, the service automatically posts the charge to OPERA (production-like).
+  - `false` → Simphony closes the check but your app must call OPERA’s folio API itself.
 
-* **`SIMPHONY_TRANSACTION_CODE`**
+- **`SIMPHONY_TRANSACTION_CODE`**
 
-  * Default transaction code used when posting folio charges (e.g. `ROOM_SERVICE`, `MINIBAR`).
-  * Can be overridden per-request by passing `transactionCode` in the tender payload.
+  - Default transaction code used when posting folio charges (e.g. `ROOM_SERVICE`, `MINIBAR`).
+  - Can be overridden per-request by passing `transactionCode` in the tender payload.
 
 ---
 
@@ -83,20 +79,39 @@ curl -s -X POST http://localhost:5102/__seed/guest \
   -d '{"room":"203","lastName":"Nguyen","reservationId":"RES-555","guestName":"Taylor Nguyen"}' | jq .
 ```
 
-### 2. Fetch Menu (via Simphony Mock)
+### 2. Fetch Menu Summaries (via Simphony Mock)
 
 ```bash
-curl -s http://localhost:4010/sts/v2/menu | jq .
+curl -s "http://localhost:4010/menus/summary?OrgShortName=test&LocRef=test&RvcRef=test" | jq .
 ```
 
-### 3. Create a Check
+### 3. Fetch Specific Menu (via Simphony Mock)
+
+```bash
+curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: test" http://localhost:4010/menus/1233 | jq .
+```
+
+### 4. Fetch Checks (via Simphony Mock)
+
+```bash
+# Get all checks
+curl -s "http://localhost:4010/checks" | jq .
+
+# Get checks with query parameters
+curl -s "http://localhost:4010/checks?checkEmployeeRef=123&includeClosed=true&orderTypeRef=1&tableName=Table%201" | jq .
+
+# Get specific check by ID
+curl -s "http://localhost:4010/checks/CHK-001" | jq .
+```
+
+### 5. Create a Check
 
 ```bash
 CHK=$(curl -s -X POST http://localhost:4010/sts/v2/checks | jq -r .checkId)
 echo "Check ID: $CHK"
 ```
 
-### 4. Add Items to Check
+### 6. Add Items to Check
 
 ```bash
 curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/items \
@@ -104,7 +119,7 @@ curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/items \
   -d '{"items":[{"sku":"RS-BURGER","qty":1},{"sku":"RS-FRIES","qty":1}]}' | jq .
 ```
 
-### 5. Tender to Room Charge (auto-posts to OPERA)
+### 7. Tender to Room Charge (auto-posts to OPERA)
 
 ```bash
 curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/tenders \
@@ -112,7 +127,7 @@ curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/tenders \
   -d '{"type":"ROOM_CHARGE","roomNumber":"203","lastName":"Nguyen"}' | jq .
 ```
 
-### 6. Verify Folio in OPERA
+### 8. Verify Folio in OPERA
 
 ```bash
 curl -s http://localhost:4020/opera/v1/folios/RES-555 | jq .
@@ -124,9 +139,9 @@ Expected result: the folio shows a new line with your transaction code (default:
 
 ## Notes
 
-* All state (checks, guests, folios) is persisted in `./data/*.json` so it survives container restarts.
-* Use `SIMPHONY_AUTO_POST=false` if you want to test manual folio posting workflows.
-* Use `transactionCode` in the tender payload to override the environment default.
+- All state (checks, guests, folios) is persisted in `./data/*.json` so it survives container restarts.
+- Use `SIMPHONY_AUTO_POST=false` if you want to test manual folio posting workflows.
+- Use `transactionCode` in the tender payload to override the environment default.
 
 ---
 

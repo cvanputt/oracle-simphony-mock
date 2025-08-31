@@ -1,0 +1,1073 @@
+[ {
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/oidc-provider/v1/.well-known/openid-configuration"
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "issuer" : "http://localhost:4010/oidc-provider/v1",
+      "authorization_endpoint" : "http://localhost:4010/oidc-provider/v1/oauth2/authorize",
+      "token_endpoint" : "http://localhost:4010/oidc-provider/v1/oauth2/token",
+      "userinfo_endpoint" : "http://localhost:4010/oidc-provider/v1/oauth2/userinfo",
+      "jwks_uri" : "http://localhost:4010/oidc-provider/v1/oauth2/jwks",
+      "response_types_supported" : [ "code" ],
+      "subject_types_supported" : [ "public" ],
+      "id_token_signing_alg_values_supported" : [ "RS256" ],
+      "scopes_supported" : [ "openid" ],
+      "code_challenge_methods_supported" : [ "S256" ]
+    }
+  },
+  "id" : "d65d9660-38ac-394c-96a0-6e24c4eaf365",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/oidc-provider/v1/oauth2/authorize",
+    "queryStringParameters" : {
+      "scope" : [ "openid" ],
+      "response_type" : [ "code" ],
+      "redirect_uri" : [ "apiaccount://callback" ],
+      "code_challenge_method" : [ "S256" ],
+      "code_challenge" : [ ".*" ],
+      "client_id" : [ ".*" ]
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 302,
+    "headers" : {
+      "Set-Cookie" : [ "simphony_auth_session=mock_session_token; Path=/; HttpOnly; Secure" ],
+      "Location" : [ "apiaccount://callback?code=mock_auth_code_12345&state=mock_state" ]
+    }
+  },
+  "id" : "b59f73e6-be60-3690-b98e-3698f2b215e1",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/oidc-provider/v1/oauth2/signin",
+    "headers" : {
+      "Content-Type" : [ "application/x-www-form-urlencoded" ]
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "success" : true,
+      "message" : "User signed in successfully",
+      "sessionId" : "mock_session_12345"
+    }
+  },
+  "id" : "2b2febb0-6a02-323e-945b-c822aaf392c8",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/oidc-provider/v1/oauth2/token",
+    "headers" : {
+      "Content-Type" : [ "application/x-www-form-urlencoded" ]
+    },
+    "body" : {
+      "type" : "FORM",
+      "parameters" : {
+        "grant_type" : [ "authorization_code" ]
+      }
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "access_token" : "mock_access_token_12345",
+      "token_type" : "Bearer",
+      "expires_in" : 3600,
+      "refresh_token" : "mock_refresh_token_12345",
+      "id_token" : "mock_id_token_12345",
+      "scope" : "openid"
+    }
+  },
+  "id" : "c3af5939-cae8-3d55-bd7a-b614ddeb10c9",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/oidc-provider/v1/oauth2/token",
+    "headers" : {
+      "Content-Type" : [ "application/x-www-form-urlencoded" ]
+    },
+    "body" : {
+      "type" : "FORM",
+      "parameters" : {
+        "grant_type" : [ "refresh_token" ]
+      }
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "access_token" : "mock_access_token_refreshed_12345",
+      "token_type" : "Bearer",
+      "expires_in" : 3600,
+      "refresh_token" : "mock_refresh_token_refreshed_12345",
+      "id_token" : "mock_id_token_refreshed_12345",
+      "scope" : "openid"
+    }
+  },
+  "id" : "5ee45692-f027-32b2-b69e-cba4f1d183bf",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/api/v2/menus/summary",
+    "queryStringParameters" : {
+      "RvcRef" : [ ".*" ],
+      "OrgShortName" : [ ".*" ],
+      "LocRef" : [ ".*" ]
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : [ {
+      "menuId" : "1233",
+      "name" : "Main Menu",
+      "description" : "Primary menu for the restaurant",
+      "active" : true,
+      "revenueCenterId" : "RC-1"
+    }, {
+      "menuId" : "1234",
+      "name" : "Bar Menu",
+      "description" : "Beverages and bar snacks",
+      "active" : true,
+      "revenueCenterId" : "RC-1"
+    } ]
+  },
+  "id" : "870da9c0-b992-31b1-9777-9935c3a32c5f",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/api/v2/menus/.*",
+    "headers" : {
+      "Simphony-RvcRef" : [ ".*" ],
+      "Simphony-OrgShortName" : [ ".*" ],
+      "Simphony-LocRef" : [ ".*" ]
+    }
+  },
+  "httpResponse" : {
+    "statusCode" : 200,
+    "headers" : {
+      "Content-Type" : [ "application/json" ]
+    },
+    "body" : {
+      "menuItems" : [ {
+        "menuItemId" : 1001,
+        "name" : {
+          "en-US" : "Classic Cheeseburger",
+          "es-ES" : "Hamburguesa Clásica con Queso"
+        },
+        "familyGroupRef" : 1,
+        "definitions" : [ {
+          "definitionSequence" : 0,
+          "name" : {
+            "en-US" : "Classic Cheeseburger",
+            "es-ES" : "Hamburguesa Clásica con Queso"
+          },
+          "name2" : {
+            "en-US" : "Beef patty with cheese, lettuce, tomato, onion",
+            "es-ES" : "Hamburguesa de ternera con queso, lechuga, tomate y cebolla"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 1001,
+            "name" : {
+              "en-US" : "Classic Cheeseburger",
+              "es-ES" : "Hamburguesa Clásica con Queso"
+            },
+            "images" : [ {
+              "index" : "main",
+              "url" : "https://oracleObjectStore.com/images/cheeseburger-main.jpg",
+              "altText" : "Juicy cheeseburger with melted cheese, fresh lettuce, tomato, and onion on a toasted bun",
+              "description" : "Main product image",
+              "isCloudImage" : true,
+              "size" : "large"
+            } ]
+          } ],
+          "taxClassRef" : 1,
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 12.99,
+            "name" : "Regular"
+          } ],
+          "defaultCondiments" : [ {
+            "condimentRef" : 2001,
+            "quantity" : 1
+          }, {
+            "condimentRef" : 2002,
+            "quantity" : 2
+          } ],
+          "condimentGroupRules" : [ {
+            "condimentGroupRef" : 3001,
+            "minimumCount" : 0,
+            "maximumCount" : 3
+          } ],
+          "consumerName" : {
+            "en-US" : "Classic Cheeseburger",
+            "es-ES" : "Hamburguesa Clásica con Queso"
+          },
+          "consumerDescription" : {
+            "en-US" : "Juicy beef patty topped with melted American cheese, crisp lettuce, ripe tomato, and fresh onion on a toasted sesame seed bun",
+            "es-ES" : "Hamburguesa de ternera jugosa con queso americano derretido, lechuga crujiente, tomate maduro y cebolla fresca en un panecillo tostado con semillas de sésamo"
+          },
+          "images" : [ {
+            "index" : "main",
+            "url" : "https://oracleObjectStore.com/images/cheeseburger-main.jpg",
+            "altText" : "Juicy cheeseburger with melted cheese, fresh lettuce, tomato, and onion on a toasted bun",
+            "description" : "Main product image",
+            "isCloudImage" : true,
+            "size" : "large"
+          } ],
+          "consumerAdvisoryText" : {
+            "en-US" : "Contains: Gluten, Dairy, Soy",
+            "es-ES" : "Contiene: Gluten, Lácteos, Soja"
+          },
+          "allergens" : [ "gluten", "dairy", "soy" ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 650,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories",
+              "es-ES" : "Calorías"
+            }
+          }, {
+            "nutritionalItemId" : "protein",
+            "value" : 28,
+            "unitOfMeasure" : "grams",
+            "name" : {
+              "en-US" : "Protein",
+              "es-ES" : "Proteína"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "hot", "popular", "main-course" ],
+          "tagGroups" : [ {
+            "id" : "dietary",
+            "tags" : [ "contains-gluten", "contains-dairy" ]
+          } ]
+        } ],
+        "dietaryInformation" : [ "contains-gluten", "contains-dairy" ],
+        "tags" : [ "hot", "popular", "main-course" ]
+      }, {
+        "menuItemId" : 1002,
+        "name" : {
+          "en-US" : "Caesar Salad",
+          "es-ES" : "Ensalada César"
+        },
+        "familyGroupRef" : 2,
+        "definitions" : [ {
+          "definitionSequence" : 0,
+          "name" : {
+            "en-US" : "Caesar Salad",
+            "es-ES" : "Ensalada César"
+          },
+          "name2" : {
+            "en-US" : "Fresh romaine lettuce with Caesar dressing, croutons, and parmesan",
+            "es-ES" : "Lechuga romana fresca con aderezo César, crutones y parmesano"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 1002,
+            "name" : {
+              "en-US" : "Caesar Salad",
+              "es-ES" : "Ensalada César"
+            },
+            "images" : [ {
+              "index" : "main",
+              "url" : "https://oracleObjectStore.com/images/caesar-salad.jpg",
+              "altText" : "Fresh Caesar salad with crisp romaine lettuce, golden croutons, and shaved parmesan cheese",
+              "description" : "Main product image",
+              "isCloudImage" : true,
+              "size" : "large"
+            } ]
+          } ],
+          "taxClassRef" : 1,
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 9.99,
+            "name" : "Regular"
+          } ],
+          "defaultCondiments" : [ {
+            "condimentRef" : 2003,
+            "quantity" : 1
+          } ],
+          "condimentGroupRules" : [ {
+            "condimentGroupRef" : 3002,
+            "minimumCount" : 0,
+            "maximumCount" : 2
+          } ],
+          "consumerName" : {
+            "en-US" : "Caesar Salad",
+            "es-ES" : "Ensalada César"
+          },
+          "consumerDescription" : {
+            "en-US" : "Crisp romaine lettuce tossed with our signature Caesar dressing, topped with golden croutons and shaved parmesan cheese",
+            "es-ES" : "Lechuga romana crujiente mezclada con nuestro aderezo César especial, coronada con crutones dorados y queso parmesano rallado"
+          },
+          "images" : [ {
+            "index" : "main",
+            "url" : "https://oracleObjectStore.com/images/caesar-salad.jpg",
+            "altText" : "Fresh Caesar salad with crisp romaine lettuce, golden croutons, and shaved parmesan cheese",
+            "description" : "Main product image",
+            "isCloudImage" : true,
+            "size" : "large"
+          } ],
+          "consumerAdvisoryText" : {
+            "en-US" : "Contains: Gluten, Dairy, Eggs",
+            "es-ES" : "Contiene: Gluten, Lácteos, Huevos"
+          },
+          "allergens" : [ "gluten", "dairy", "eggs" ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 320,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories",
+              "es-ES" : "Calorías"
+            }
+          }, {
+            "nutritionalItemId" : "protein",
+            "value" : 8,
+            "unitOfMeasure" : "grams",
+            "name" : {
+              "en-US" : "Protein",
+              "es-ES" : "Proteína"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "cold", "healthy", "vegetarian" ],
+          "tagGroups" : [ {
+            "id" : "dietary",
+            "tags" : [ "contains-gluten", "contains-dairy", "vegetarian" ]
+          } ]
+        } ],
+        "dietaryInformation" : [ "contains-gluten", "contains-dairy", "vegetarian" ],
+        "tags" : [ "cold", "healthy", "vegetarian" ]
+      }, {
+        "menuItemId" : 1003,
+        "name" : {
+          "en-US" : "Margherita Pizza",
+          "es-ES" : "Pizza Margherita"
+        },
+        "familyGroupRef" : 3,
+        "definitions" : [ {
+          "definitionSequence" : 0,
+          "name" : {
+            "en-US" : "Margherita Pizza",
+            "es-ES" : "Pizza Margherita"
+          },
+          "name2" : {
+            "en-US" : "Traditional pizza with tomato sauce, mozzarella, and basil",
+            "es-ES" : "Pizza tradicional con salsa de tomate, mozzarella y albahaca"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 1003,
+            "name" : {
+              "en-US" : "Margherita Pizza",
+              "es-ES" : "Pizza Margherita"
+            },
+            "images" : [ {
+              "index" : "main",
+              "url" : "https://oracleObjectStore.com/images/margherita-pizza.jpg",
+              "altText" : "Fresh Margherita pizza with bubbling mozzarella, bright red tomato sauce, and fresh basil leaves",
+              "description" : "Main product image",
+              "isCloudImage" : true,
+              "size" : "large"
+            } ]
+          } ],
+          "taxClassRef" : 1,
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 16.99,
+            "name" : "12-inch"
+          }, {
+            "priceSequence" : 1,
+            "price" : 22.99,
+            "name" : "16-inch"
+          } ],
+          "defaultCondiments" : [ {
+            "condimentRef" : 2004,
+            "quantity" : 1
+          } ],
+          "condimentGroupRules" : [ {
+            "condimentGroupRef" : 3003,
+            "minimumCount" : 0,
+            "maximumCount" : 4
+          } ],
+          "consumerName" : {
+            "en-US" : "Margherita Pizza",
+            "es-ES" : "Pizza Margherita"
+          },
+          "consumerDescription" : {
+            "en-US" : "Our signature thin-crust pizza topped with fresh tomato sauce, creamy mozzarella cheese, and fragrant basil leaves",
+            "es-ES" : "Nuestra pizza de masa fina especial con salsa de tomate fresca, queso mozzarella cremoso y hojas de albahaca fragantes"
+          },
+          "images" : [ {
+            "index" : "main",
+            "url" : "https://oracleObjectStore.com/images/margherita-pizza.jpg",
+            "altText" : "Fresh Margherita pizza with bubbling mozzarella, bright red tomato sauce, and fresh basil leaves",
+            "description" : "Main product image",
+            "isCloudImage" : true,
+            "size" : "large"
+          } ],
+          "consumerAdvisoryText" : {
+            "en-US" : "Contains: Gluten, Dairy",
+            "es-ES" : "Contiene: Gluten, Lácteos"
+          },
+          "allergens" : [ "gluten", "dairy" ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 285,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories per slice",
+              "es-ES" : "Calorías por rebanada"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "hot", "popular", "vegetarian" ],
+          "tagGroups" : [ {
+            "id" : "dietary",
+            "tags" : [ "contains-gluten", "contains-dairy", "vegetarian" ]
+          } ]
+        } ],
+        "dietaryInformation" : [ "contains-gluten", "contains-dairy", "vegetarian" ],
+        "tags" : [ "hot", "popular", "vegetarian" ]
+      }, {
+        "menuItemId" : 1004,
+        "name" : {
+          "en-US" : "Chicken Wings",
+          "es-ES" : "Alitas de Pollo"
+        },
+        "familyGroupRef" : 4,
+        "definitions" : [ {
+          "definitionSequence" : 0,
+          "name" : {
+            "en-US" : "Chicken Wings",
+            "es-ES" : "Alitas de Pollo"
+          },
+          "name2" : {
+            "en-US" : "Crispy wings with choice of sauce",
+            "es-ES" : "Alitas crujientes con salsa a elección"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 1004,
+            "name" : {
+              "en-US" : "Chicken Wings",
+              "es-ES" : "Alitas de Pollo"
+            },
+            "images" : [ {
+              "index" : "main",
+              "url" : "https://oracleObjectStore.com/images/chicken-wings.jpg",
+              "altText" : "Golden crispy chicken wings glazed with spicy buffalo sauce",
+              "description" : "Main product image",
+              "isCloudImage" : true,
+              "size" : "large"
+            } ]
+          } ],
+          "taxClassRef" : 1,
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 11.99,
+            "name" : "6 wings"
+          }, {
+            "priceSequence" : 1,
+            "price" : 18.99,
+            "name" : "12 wings"
+          } ],
+          "defaultCondiments" : [ {
+            "condimentRef" : 2005,
+            "quantity" : 1
+          } ],
+          "condimentGroupRules" : [ {
+            "condimentGroupRef" : 3004,
+            "minimumCount" : 1,
+            "maximumCount" : 2
+          } ],
+          "consumerName" : {
+            "en-US" : "Chicken Wings",
+            "es-ES" : "Alitas de Pollo"
+          },
+          "consumerDescription" : {
+            "en-US" : "Crispy fried chicken wings tossed in your choice of sauce - Buffalo, BBQ, Honey Mustard, or Garlic Parmesan",
+            "es-ES" : "Alitas de pollo fritas crujientes con tu salsa favorita - Buffalo, BBQ, Miel y Mostaza, o Ajo Parmesano"
+          },
+          "images" : [ {
+            "index" : "main",
+            "url" : "https://oracleObjectStore.com/images/chicken-wings.jpg",
+            "altText" : "Golden crispy chicken wings glazed with spicy buffalo sauce",
+            "description" : "Main product image",
+            "isCloudImage" : true,
+            "size" : "large"
+          } ],
+          "consumerAdvisoryText" : {
+            "en-US" : "Contains: Gluten, Dairy",
+            "es-ES" : "Contiene: Gluten, Lácteos"
+          },
+          "allergens" : [ "gluten", "dairy" ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 180,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories per wing",
+              "es-ES" : "Calorías por alita"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "hot", "spicy", "appetizer" ],
+          "tagGroups" : [ {
+            "id" : "dietary",
+            "tags" : [ "contains-gluten", "contains-dairy" ]
+          } ]
+        } ],
+        "dietaryInformation" : [ "contains-gluten", "contains-dairy" ],
+        "tags" : [ "hot", "spicy", "appetizer" ]
+      }, {
+        "menuItemId" : 1005,
+        "name" : {
+          "en-US" : "Iced Latte",
+          "es-ES" : "Café con Leche Helado"
+        },
+        "familyGroupRef" : 5,
+        "definitions" : [ {
+          "definitionSequence" : 0,
+          "name" : {
+            "en-US" : "Iced Latte",
+            "es-ES" : "Café con Leche Helado"
+          },
+          "name2" : {
+            "en-US" : "Espresso with cold milk over ice",
+            "es-ES" : "Café expreso con leche fría sobre hielo"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 1005,
+            "name" : {
+              "en-US" : "Iced Latte",
+              "es-ES" : "Café con Leche Helado"
+            },
+            "images" : [ {
+              "index" : "main",
+              "url" : "https://oracleObjectStore.com/images/iced-latte.jpg",
+              "altText" : "Refreshing iced latte in a tall glass with creamy milk and espresso over ice",
+              "description" : "Main product image",
+              "isCloudImage" : true,
+              "size" : "large"
+            } ]
+          } ],
+          "taxClassRef" : 2,
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 4.99,
+            "name" : "Medium"
+          }, {
+            "priceSequence" : 1,
+            "price" : 5.99,
+            "name" : "Large"
+          } ],
+          "defaultCondiments" : [ {
+            "condimentRef" : 2006,
+            "quantity" : 1
+          } ],
+          "condimentGroupRules" : [ {
+            "condimentGroupRef" : 3005,
+            "minimumCount" : 0,
+            "maximumCount" : 3
+          } ],
+          "consumerName" : {
+            "en-US" : "Iced Latte",
+            "es-ES" : "Café con Leche Helado"
+          },
+          "consumerDescription" : {
+            "en-US" : "Smooth espresso blended with cold milk and served over ice for a refreshing coffee experience",
+            "es-ES" : "Café expreso suave mezclado con leche fría y servido sobre hielo para una experiencia de café refrescante"
+          },
+          "images" : [ {
+            "index" : "main",
+            "url" : "https://oracleObjectStore.com/images/iced-latte.jpg",
+            "altText" : "Refreshing iced latte in a tall glass with creamy milk and espresso over ice",
+            "description" : "Main product image",
+            "isCloudImage" : true,
+            "size" : "large"
+          } ],
+          "consumerAdvisoryText" : {
+            "en-US" : "Contains: Dairy",
+            "es-ES" : "Contiene: Lácteos"
+          },
+          "allergens" : [ "dairy" ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 120,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories",
+              "es-ES" : "Calorías"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "cold", "beverage", "caffeine" ],
+          "tagGroups" : [ {
+            "id" : "dietary",
+            "tags" : [ "contains-dairy", "contains-caffeine" ]
+          } ]
+        } ],
+        "dietaryInformation" : [ "contains-dairy", "contains-caffeine" ],
+        "tags" : [ "cold", "beverage", "caffeine" ]
+      } ],
+      "comboMeals" : [ {
+        "comboMealId" : 2001,
+        "name" : {
+          "en-US" : "Burger Combo",
+          "es-ES" : "Combo de Hamburguesa"
+        },
+        "options" : "isSized",
+        "menuItemRef" : 1001,
+        "mealGroups" : [ {
+          "comboGroupRef" : 4001,
+          "isPrimary" : true,
+          "sideCount" : 1,
+          "prices" : [ {
+            "priceId" : 5001,
+            "price" : 15.99
+          } ]
+        } ]
+      } ],
+      "comboGroups" : [ {
+        "comboGroupId" : 4001,
+        "name" : {
+          "en-US" : "Side Items",
+          "es-ES" : "Acompañamientos"
+        },
+        "items" : {
+          "menuItemRef" : 1006,
+          "count" : 1,
+          "sizes" : [ {
+            "sizeId" : "small",
+            "menuItemRef" : 1006
+          }, {
+            "sizeId" : "medium",
+            "menuItemRef" : 1006
+          }, {
+            "sizeId" : "large",
+            "menuItemRef" : 1006
+          } ],
+          "prices" : [ {
+            "priceId" : 5002,
+            "price" : 2.99
+          } ]
+        }
+      } ],
+      "condimentItems" : [ {
+        "name" : {
+          "en-US" : "Ketchup",
+          "es-ES" : "Ketchup"
+        },
+        "condimentId" : 2001,
+        "familyGroupRef" : 6,
+        "definitions" : [ {
+          "number" : 0,
+          "name" : {
+            "en-US" : "Ketchup",
+            "es-ES" : "Ketchup"
+          },
+          "name2" : {
+            "en-US" : "Tomato ketchup",
+            "es-ES" : "Salsa de tomate"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 2001,
+            "name" : {
+              "en-US" : "Ketchup",
+              "es-ES" : "Ketchup"
+            }
+          } ],
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 0.5,
+            "name" : "Extra"
+          } ],
+          "consumerName" : {
+            "en-US" : "Ketchup",
+            "es-ES" : "Ketchup"
+          },
+          "consumerDescription" : {
+            "en-US" : "Classic tomato ketchup",
+            "es-ES" : "Ketchup de tomate clásico"
+          },
+          "allergens" : [ ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 20,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories per packet",
+              "de-DE" : "Kalorien pro Packung",
+              "ar-AR" : "السعرات الحرارية لكل عبوة"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "condiment", "vegetarian" ]
+        } ],
+        "dietaryInformation" : [ "vegetarian" ],
+        "tags" : [ "condiment", "vegetarian" ]
+      }, {
+        "name" : {
+          "en-US" : "Mustard",
+          "es-ES" : "Mostaza"
+        },
+        "condimentId" : 2002,
+        "familyGroupRef" : 6,
+        "definitions" : [ {
+          "number" : 0,
+          "name" : {
+            "en-US" : "Mustard",
+            "es-ES" : "Mostaza"
+          },
+          "name2" : {
+            "en-US" : "Yellow mustard",
+            "es-ES" : "Mostaza amarilla"
+          },
+          "slus" : [ {
+            "sluNumber" : 0,
+            "sluId" : 2002,
+            "name" : {
+              "en-US" : "Mustard",
+              "es-ES" : "Mostaza"
+            }
+          } ],
+          "prices" : [ {
+            "priceSequence" : 0,
+            "price" : 0.5,
+            "name" : "Extra"
+          } ],
+          "consumerName" : {
+            "en-US" : "Mustard",
+            "es-ES" : "Mostaza"
+          },
+          "consumerDescription" : {
+            "en-US" : "Classic yellow mustard",
+            "es-ES" : "Mostaza amarilla clásica"
+          },
+          "allergens" : [ ],
+          "nutritionalData" : [ {
+            "nutritionalItemId" : "calories",
+            "value" : 5,
+            "unitOfMeasure" : "calories",
+            "name" : {
+              "en-US" : "Calories per packet",
+              "de-DE" : "Kalorien pro Packung",
+              "ar-AR" : "السعرات الحرارية لكل عبوة"
+            }
+          } ],
+          "options" : [ "allowCondimentPrefix" ],
+          "tags" : [ "condiment", "vegetarian" ]
+        } ],
+        "dietaryInformation" : [ "vegetarian" ],
+        "tags" : [ "condiment", "vegetarian" ]
+      } ],
+      "condimentGroups" : [ {
+        "condimentGroupId" : 3001,
+        "name" : {
+          "en-US" : "Burger Condiments",
+          "es-ES" : "Condimentos para Hamburguesas"
+        },
+        "condimentItemRefs" : [ {
+          "condimentItemRef" : 2001,
+          "definitionSequence" : 0
+        }, {
+          "condimentItemRef" : 2002,
+          "definitionSequence" : 0
+        } ]
+      } ],
+      "familyGroups" : [ {
+        "familyGroupItemId" : 1,
+        "name" : {
+          "en-US" : "Burgers",
+          "es-ES" : "Hamburguesas"
+        },
+        "consumerName" : {
+          "en-US" : "Burgers",
+          "es-ES" : "Hamburguesas"
+        },
+        "consumerDescription" : {
+          "en-US" : "Juicy beef burgers with fresh toppings",
+          "es-ES" : "Hamburguesas de ternera jugosas con ingredientes frescos"
+        }
+      }, {
+        "familyGroupItemId" : 2,
+        "name" : {
+          "en-US" : "Salads",
+          "es-ES" : "Ensaladas"
+        },
+        "consumerName" : {
+          "en-US" : "Salads",
+          "es-ES" : "Ensaladas"
+        },
+        "consumerDescription" : {
+          "en-US" : "Fresh and healthy salad options",
+          "es-ES" : "Opciones de ensaladas frescas y saludables"
+        }
+      }, {
+        "familyGroupItemId" : 3,
+        "name" : {
+          "en-US" : "Pizza",
+          "es-ES" : "Pizza"
+        },
+        "consumerName" : {
+          "en-US" : "Pizza",
+          "es-ES" : "Pizza"
+        },
+        "consumerDescription" : {
+          "en-US" : "Authentic Italian-style pizzas",
+          "es-ES" : "Pizzas auténticas estilo italiano"
+        }
+      }, {
+        "familyGroupItemId" : 4,
+        "name" : {
+          "en-US" : "Appetizers",
+          "es-ES" : "Aperitivos"
+        },
+        "consumerName" : {
+          "en-US" : "Appetizers",
+          "es-ES" : "Aperitivos"
+        },
+        "consumerDescription" : {
+          "en-US" : "Delicious starters and snacks",
+          "es-ES" : "Aperitivos y bocadillos deliciosos"
+        }
+      }, {
+        "familyGroupItemId" : 5,
+        "name" : {
+          "en-US" : "Beverages",
+          "es-ES" : "Bebidas"
+        },
+        "consumerName" : {
+          "en-US" : "Beverages",
+          "es-ES" : "Bebidas"
+        },
+        "consumerDescription" : {
+          "en-US" : "Hot and cold beverages",
+          "es-ES" : "Bebidas calientes y frías"
+        }
+      } ],
+      "allergens" : [ {
+        "allergenId" : "gluten",
+        "name" : {
+          "en-US" : "Gluten",
+          "es-ES" : "Gluten"
+        }
+      }, {
+        "allergenId" : "dairy",
+        "name" : {
+          "en-US" : "Dairy",
+          "es-ES" : "Lácteos"
+        }
+      }, {
+        "allergenId" : "eggs",
+        "name" : {
+          "en-US" : "Eggs",
+          "es-ES" : "Huevos"
+        }
+      }, {
+        "allergenId" : "soy",
+        "name" : {
+          "en-US" : "Soy",
+          "es-ES" : "Soja"
+        }
+      } ],
+      "options" : {
+        "condimentPrefixes" : [ {
+          "prefixId" : 1,
+          "prefixType" : "quantity",
+          "name" : {
+            "en-US" : "No"
+          }
+        }, {
+          "prefixId" : 2,
+          "prefixType" : "quantity",
+          "name" : {
+            "en-US" : "Add"
+          }
+        }, {
+          "prefixId" : 3,
+          "prefixType" : "substitution",
+          "name" : {
+            "en-US" : "Substitute"
+          }
+        }, {
+          "prefixId" : 4,
+          "prefixType" : "description",
+          "name" : {
+            "en-US" : "Description",
+            "es-ES" : "Descripción"
+          }
+        } ]
+      },
+      "menuId" : "restaurant:store123:1",
+      "name" : "Main Menu",
+      "orgShortName" : "restaurant",
+      "locRef" : "store123",
+      "rvcRef" : 1
+    }
+  },
+  "id" : "9b12235c-e332-3f9e-a811-929d8d490e98",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "GET"
+  },
+  "id" : "3e8be7be-a295-31d1-bd69-e913d3b9f852",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "GET",
+    "path" : "/checks/.*"
+  },
+  "id" : "cfe2c363-0379-3084-a52b-e9cf95af9760",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/checks"
+  },
+  "id" : "cd3cfffd-8358-3957-bef4-3c202971aeb9",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/checks/.*/items"
+  },
+  "id" : "f0426e2c-ef7b-3e8c-b862-18814b12f68c",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/checks/.*/tenders"
+  },
+  "id" : "206bb205-8695-3d92-9d71-3f9cae4464e6",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+} ]

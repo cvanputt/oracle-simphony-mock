@@ -1,0 +1,1996 @@
+{
+	"info": {
+		"_postman_id": "ee270e18-af45-47fb-a9b9-ecf1385c4d4e",
+		"name": "Simphony Transaction Services Gen2 API",
+		"description": "<p>The Simphony Transaction Services Gen2 (STS Gen2) API is a cloud offering that is provisioned by Oracle and available for use with new deployments of the Simphony Cloud Service.</p>\n\n<p>STS Gen2 provides a RESTful interface for transaction processing and complementary services that will be available both in the cloud as well as within the location. The exposed APIs are stateless and highly scalable, supporting large multi-tenanted Oracle Food and Beverage Cloud environments.</p>\n\nMore information: [The Simphony Transaction Services Gen2 (STS Gen2) API](https://docs.oracle.com/en/industries/food-beverage/simphony/index.html)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31892736"
+	},
+	"item": [
+		{
+			"name": "STS Gen2 Notifications Service",
+			"item": [
+				{
+					"name": "discovery",
+					"item": [
+						{
+							"name": "Get message types",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/notifications/discovery",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"discovery"
+									]
+								},
+								"description": "The API is used to get a list of all the available MessageType Types."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "registration",
+					"item": [
+						{
+							"name": "PUT creates or updates integrators registration",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"keyId\": \"<string>\",\n  \"hmacKey\": \"<string>\",\n  \"keyType\": \"<string>\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{basePath}}/notifications/registration",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"registration"
+									]
+								},
+								"description": "The API is used to register or update subscriber. Intended to be used when subscriber's keyId, hmacKey, or keyType update is required. Existing subscriptions will remain intact and any notifications that are sent related to the subscription will utilize the newly updated details.\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a subscriber",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{basePath}}/notifications/registration",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"registration"
+									]
+								},
+								"description": "The API is used to delete a subscriber."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "subscriptions",
+					"item": [
+						{
+							"name": "{subscriptionId}",
+							"item": [
+								{
+									"name": "Get the subscription by a subscriptionId",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/notifications/subscriptions/:subscriptionId",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"notifications",
+												"subscriptions",
+												":subscriptionId"
+											],
+											"variable": [
+												{
+													"key": "subscriptionId",
+													"value": "<string>",
+													"description": "(Required) Subscription Identifier\n"
+												}
+											]
+										},
+										"description": "<p>{basePath}/notifications/subscriptions/055a5914-ca69-7776-b076-e036fdab486f</p>The API is used to get the subscriptions by a subscriptionId.\n"
+									},
+									"response": []
+								},
+								{
+									"name": "Delete the subscription by a subscriptionId",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/notifications/subscriptions/:subscriptionId",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"notifications",
+												"subscriptions",
+												":subscriptionId"
+											],
+											"variable": [
+												{
+													"key": "subscriptionId",
+													"value": "<string>",
+													"description": "(Required) Subscription Identifier\n"
+												}
+											]
+										},
+										"description": "<p>{basePath}/notifications/subscriptions/055a5914-ca69-7776-b076-e036fdab486f</p>The API is used to delete subscriptions by a subscriptionId.\n"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get subscriptions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/notifications/subscriptions",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"subscriptions"
+									]
+								},
+								"description": "The API is used to get the current set of subscriptions to a subscriber."
+							},
+							"response": []
+						},
+						{
+							"name": "Delete subscriptions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/notifications/subscriptions",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"subscriptions"
+									]
+								},
+								"description": "The API is used to delete all the current set of subscriptions to a subscriber.\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Post create a subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"callbackUri\": \"<string>\",\n  \"messageType\": {\n    \"id\": \"<string>\"\n  },\n  \"postOfficeOptions\": {\n    \"PostOfficeType\": \"PushOnePostOffice\"\n  },\n  \"orgShortName\": \"{{orgShortName}}\",\n  \"locRef\": \"{{locRef}}\",\n  \"rvcRef\": \"{{rvcRef}}\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{basePath}}/notifications/subscriptions",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"notifications",
+										"subscriptions"
+									]
+								},
+								"description": "The API creates a subscription to a resource for the current subscriber.\n"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "STS Gen2 Organization Service",
+			"item": [
+				{
+					"name": "organizations",
+					"item": [
+						{
+							"name": "{orgShortName}",
+							"item": [
+								{
+									"name": "locations",
+									"item": [
+										{
+											"name": "{locRef}",
+											"item": [
+												{
+													"name": "revenueCenters",
+													"item": [
+														{
+															"name": "{rvcRef}",
+															"item": [
+																{
+																	"name": "Get a revenue center by the specified identifier for a location",
+																	"request": {
+																		"auth": {
+																			"type": "bearer",
+																			"bearer": [
+																				{
+																					"key": "token",
+																					"value": "{{oidc_public_token}}",
+																					"type": "string"
+																				}
+																			]
+																		},
+																		"method": "GET",
+																		"header": [
+																			{
+																				"key": "Accept",
+																				"value": "application/json"
+																			}
+																		],
+																		"url": {
+																			"raw": "{{basePath}}/organizations/:orgShortName/locations/:locRef/revenueCenters/:rvcRef",
+																			"host": [
+																				"{{basePath}}"
+																			],
+																			"path": [
+																				"organizations",
+																				":orgShortName",
+																				"locations",
+																				":locRef",
+																				"revenueCenters",
+																				":rvcRef"
+																			],
+																			"variable": [
+																				{
+																					"key": "orgShortName",
+																					"value": "{{orgShortName}}",
+																					"description": "(Required) Organization Identifier\n"
+																				},
+																				{
+																					"key": "locRef",
+																					"value": "{{locRef}}",
+																					"description": "(Required) Location Identifier\n"
+																				},
+																				{
+																					"key": "rvcRef",
+																					"value": "{{rvcRef}}",
+																					"description": "(Required) Revenue Center Identifier\n"
+																				}
+																			]
+																		},
+																		"description": "<p>{basePath}/organizations/tfoinc/locations/fdmnh144/revenueCenters/42</p>The API returns details about a specific revenue center in a location.\n"
+																	},
+																	"response": []
+																}
+															]
+														},
+														{
+															"name": "Get a list of all revenue centers for a location",
+															"request": {
+																"auth": {
+																	"type": "bearer",
+																	"bearer": [
+																		{
+																			"key": "token",
+																			"value": "{{oidc_public_token}}",
+																			"type": "string"
+																		}
+																	]
+																},
+																"method": "GET",
+																"header": [
+																	{
+																		"key": "Accept",
+																		"value": "application/json"
+																	}
+																],
+																"url": {
+																	"raw": "{{basePath}}/organizations/:orgShortName/locations/:locRef/revenueCenters?offset=<integer>&limit=<integer>",
+																	"host": [
+																		"{{basePath}}"
+																	],
+																	"path": [
+																		"organizations",
+																		":orgShortName",
+																		"locations",
+																		":locRef",
+																		"revenueCenters"
+																	],
+																	"query": [
+																		{
+																			"key": "offset",
+																			"value": "<integer>",
+																			"description": "The offset of the start of the current page in the collection. If offset is not included in the request then all objects returned.\n"
+																		},
+																		{
+																			"key": "limit",
+																			"value": "<integer>",
+																			"description": "The limit used for the current page.The maximum number of items to return in this request.\n"
+																		}
+																	],
+																	"variable": [
+																		{
+																			"key": "orgShortName",
+																			"value": "{{orgShortName}}",
+																			"description": "(Required) Organization Identifier\n"
+																		},
+																		{
+																			"key": "locRef",
+																			"value": "{{locRef}}",
+																			"description": "(Required) Location Identifier\n"
+																		}
+																	]
+																},
+																"description": "<p>{basePath}/organizations/tfoinc/locations/fdmnh144/revenueCenters</p><p>{basePath}/organizations/tfoinc/locations/fdmnh144/revenueCenters?offset=5&limit=2</p>The API returns a list of revenue centers the integrator is privileged to interact with in a location.\n"
+															},
+															"response": []
+														}
+													]
+												},
+												{
+													"name": "Get a location by the specified identifier for an organization",
+													"request": {
+														"auth": {
+															"type": "bearer",
+															"bearer": [
+																{
+																	"key": "token",
+																	"value": "{{oidc_public_token}}",
+																	"type": "string"
+																}
+															]
+														},
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{basePath}}/organizations/:orgShortName/locations/:locRef",
+															"host": [
+																"{{basePath}}"
+															],
+															"path": [
+																"organizations",
+																":orgShortName",
+																"locations",
+																":locRef"
+															],
+															"variable": [
+																{
+																	"key": "orgShortName",
+																	"value": "{{orgShortName}}",
+																	"description": "(Required) Organization Identifier\n"
+																},
+																{
+																	"key": "locRef",
+																	"value": "{{locRef}}",
+																	"description": "(Required) Location Identifier\n"
+																}
+															]
+														},
+														"description": "<p>{basePath}/organizations/tfoinc/locations/fdmnh144</p>The API returns details about a specific location in an organization.\n"
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "Get a list of all locations for an organization",
+											"request": {
+												"auth": {
+													"type": "bearer",
+													"bearer": [
+														{
+															"key": "token",
+															"value": "{{oidc_public_token}}",
+															"type": "string"
+														}
+													]
+												},
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{basePath}}/organizations/:orgShortName/locations?offset=<integer>&limit=<integer>",
+													"host": [
+														"{{basePath}}"
+													],
+													"path": [
+														"organizations",
+														":orgShortName",
+														"locations"
+													],
+													"query": [
+														{
+															"key": "offset",
+															"value": "<integer>",
+															"description": "The offset of the start of the current page in the collection. If offset is not included in the request then all objects returned.\n"
+														},
+														{
+															"key": "limit",
+															"value": "<integer>",
+															"description": "The limit used for the current page.The maximum number of items to return in this request.\n"
+														}
+													],
+													"variable": [
+														{
+															"key": "orgShortName",
+															"value": "{{orgShortName}}",
+															"description": "(Required) Organization Identifier\n"
+														}
+													]
+												},
+												"description": "<p>{basePath}/organizations/tfoinc/locations</p><p>{basePath}/organizations/tfoinc/locations?offset=0&limit=2</p>The API returns a list of locations with which the integrator is privileged to interact within an organization.\n"
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Get an organization by the specified identifier",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/organizations/:orgShortName",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"organizations",
+												":orgShortName"
+											],
+											"variable": [
+												{
+													"key": "orgShortName",
+													"value": "{{orgShortName}}",
+													"description": "(Required) Organization Identifier\n"
+												}
+											]
+										},
+										"description": "<p>{basePath}/organizations/tfoinc</p>The API returns details about a specific organization.\n"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get a list of organizations",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/organizations?offset=<integer>&limit=<integer>",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"organizations"
+									],
+									"query": [
+										{
+											"key": "offset",
+											"value": "<integer>",
+											"description": "The offset of the start of the current page in the collection. If offset is not included in the request then all objects returned.\n"
+										},
+										{
+											"key": "limit",
+											"value": "<integer>",
+											"description": "The limit used for the current page.The maximum number of items to return in this request.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/organizations?offset=1&limit=2</p>The API returns a list of organizations with which the integrator is privileged to interact.\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "search",
+					"item": [
+						{
+							"name": "locations",
+							"item": [
+								{
+									"name": "Get search for locations within an organization",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/search/locations?orgShortName={{orgShortName}}&latitude={{latitude}}&longitude={{longitude}}&radius=5000&floor=1&count=5",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"search",
+												"locations"
+											],
+											"query": [
+												{
+													"key": "orgShortName",
+													"value": "{{orgShortName}}",
+													"description": "(Required) Organization Identifier\n"
+												},
+												{
+													"key": "latitude",
+													"value": "{{latitude}}",
+													"description": "(Required) WGS84 latitude, in degrees"
+												},
+												{
+													"key": "longitude",
+													"value": "{{longitude}}",
+													"description": "(Required) WGS84 Longitude, in degrees"
+												},
+												{
+													"key": "radius",
+													"value": "5000",
+													"description": "The search radius in meters"
+												},
+												{
+													"key": "floor",
+													"value": "1",
+													"description": "address floor"
+												},
+												{
+													"key": "count",
+													"value": "5",
+													"description": "(Required) Total number of items in the collection for all pages."
+												}
+											]
+										},
+										"description": "<p>{basePath}/search/locations?orgShortName=tfoinc&latitude=40.763188&longitude=-73.914835&radius=50000&floor=1&count=2</p>The API returns a list of locations within an organization based on distance from the given geo-coordinate.<p> Supported only for STSG2 cloud integrations.</p>"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "revenueCenters",
+							"item": [
+								{
+									"name": "Get search for revenue centers within a location",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/search/revenueCenters?orgShortName={{orgShortName}}&locRef={{locRef}}&latitude={{latitude}}&longitude={{longitude}}&radius=5000&floor=1&count=5",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"search",
+												"revenueCenters"
+											],
+											"query": [
+												{
+													"key": "orgShortName",
+													"value": "{{orgShortName}}",
+													"description": "(Required) Organization Identifier\n"
+												},
+												{
+													"key": "locRef",
+													"value": "{{locRef}}",
+													"description": "(Required) Location Identifier\n"
+												},
+												{
+													"key": "latitude",
+													"value": "{{latitude}}",
+													"description": "(Required) WGS84 latitude, in degrees"
+												},
+												{
+													"key": "longitude",
+													"value": "{{longitude}}",
+													"description": "(Required) WGS84 Longitude, in degrees"
+												},
+												{
+													"key": "radius",
+													"value": "5000",
+													"description": "The search radius in meters"
+												},
+												{
+													"key": "floor",
+													"value": "1",
+													"description": "address floor"
+												},
+												{
+													"key": "count",
+													"value": "5",
+													"description": "(Required) Total number of items in the collection for all pages."
+												}
+											]
+										},
+										"description": "<p>{basePath}/search/revenueCenters?orgShortName=tfoinc&locRef=fdmnh144&latitude=40.763188&longitude=-73.914835&radius=5000&count=2</p><p>{basePath}/search/revenueCenters?orgShortName=tfoinc&locRef=fdmnh144&floor=3</p><p>The API returns a list of revenue centers within a location based on distance from the point defined in the request and/or the floors provided in the \"floor\" query parameter.</p><p> Supported only for STSG2 cloud integrations.</p>"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "STS Gen2 Configuration Service",
+			"item": [
+				{
+					"name": "tenders",
+					"item": [
+						{
+							"name": "Get the tender collection",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-Modified-Since",
+										"value": "<string>"
+									},
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-None-Match",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/tenders/collection?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"tenders",
+										"collection"
+									],
+									"query": [
+										{
+											"key": "OrgShortName",
+											"value": "{{orgShortName}}",
+											"description": "(Required) The organization identifier.\n"
+										},
+										{
+											"key": "LocRef",
+											"value": "{{locRef}}",
+											"description": "(Required) The location identifier.\n"
+										},
+										{
+											"key": "RvcRef",
+											"value": "{{rvcRef}}",
+											"description": "(Required) The revenue center identifier.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/tenders/collection?orgShortName=tfoinc&locRef=fdmnh144&rvcRef=42</p>The tender collection is a list of tenders that can be used for payment when interacting with the checks endpoint. The API returns a collection of tenders for the specified revenue center.\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "taxes",
+					"item": [
+						{
+							"name": "Get tax definitions",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-Modified-Since",
+										"value": "<string>"
+									},
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-None-Match",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/taxes?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"taxes"
+									],
+									"query": [
+										{
+											"key": "OrgShortName",
+											"value": "{{orgShortName}}",
+											"description": "(Required) The organization identifier.\n"
+										},
+										{
+											"key": "LocRef",
+											"value": "{{locRef}}",
+											"description": "(Required) The location identifier.\n"
+										},
+										{
+											"key": "RvcRef",
+											"value": "{{rvcRef}}",
+											"description": "(Required) The revenue center identifier.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/taxes?orgShortName=tfoinc&locRef=fdmnh144&rvcRef=42</p>Get tax configuration for a revenue center. This request provides the tax class that is referenced by menu items and the tax rates and tax types referenced by the tax classes. The tax classes will indicate which tax rates are active when that tax class is used by an item.\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "serviceCharges",
+					"item": [
+						{
+							"name": "Get the service charge collection",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-Modified-Since",
+										"value": "<string>"
+									},
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-None-Match",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}}/serviceCharges/collection?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+									"host": [
+										"{{basePath}}}"
+									],
+									"path": [
+										"serviceCharges",
+										"collection"
+									],
+									"query": [
+										{
+											"key": "OrgShortName",
+											"value": "{{orgShortName}}",
+											"description": "(Required) The organization identifier.\n"
+										},
+										{
+											"key": "LocRef",
+											"value": "{{locRef}}",
+											"description": "(Required) The location identifier.\n"
+										},
+										{
+											"key": "RvcRef",
+											"value": "{{rvcRef}}",
+											"description": "(Required) The revenue center identifier.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/serviceCharges/collection?orgShortName=tfoinc&locRef=fdmnh144&rvcRef=42</p>The service charge collection is a list of service charges that can be used when interacting with the checks endpoint. The API returns a collection of service charges that can be used at the specified revenue center.\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "barcodes",
+					"item": [
+						{
+							"name": "Get the barcode collection",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-Modified-Since",
+										"value": "<string>"
+									},
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-None-Match",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/barcodes/collection?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"barcodes",
+										"collection"
+									],
+									"query": [
+										{
+											"key": "OrgShortName",
+											"value": "{{orgShortName}}",
+											"description": "(Required) The organization identifier.\n"
+										},
+										{
+											"key": "LocRef",
+											"value": "{{locRef}}",
+											"description": "(Required) The location identifier.\n"
+										},
+										{
+											"key": "RvcRef",
+											"value": "{{rvcRef}}",
+											"description": "(Required) The revenue center identifier.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/barcodes/collection?OrgShortName=tfoinc&LocRef=fdmnh144&RvcRef=42</p>Get barcodes configuration for menu item.<p> Supported only for STSG2 cloud integrations.</p>"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "discounts",
+					"item": [
+						{
+							"name": "Get the discount collection",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-Modified-Since",
+										"value": "<string>"
+									},
+									{
+										"description": "Standard http caching header (http caching link).\n",
+										"key": "If-None-Match",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/discounts/collection?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"discounts",
+										"collection"
+									],
+									"query": [
+										{
+											"key": "OrgShortName",
+											"value": "{{orgShortName}}",
+											"description": "(Required) The organization identifier.\n"
+										},
+										{
+											"key": "LocRef",
+											"value": "{{locRef}}",
+											"description": "(Required) The location identifier.\n"
+										},
+										{
+											"key": "RvcRef",
+											"value": "{{rvcRef}}",
+											"description": "(Required) The revenue center identifier.\n"
+										}
+									]
+								},
+								"description": "<p>{basePath}/discounts/collection?orgShortName=tfoinc&locRef=fdmnh144&rvcRef=42</p>The discount collection is a list of discounts that can be used when interacting with the checks endpoint. The API returns a collection of discounts that can be used at the specified revenue center.\n"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "menus",
+					"item": [
+						{
+							"name": "summary",
+							"item": [
+								{
+									"name": "Get a summary of all available menus\n",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/menus/summary?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"menus",
+												"summary"
+											],
+											"query": [
+												{
+													"key": "OrgShortName",
+													"value": "{{orgShortName}}",
+													"description": "(Required) The organization identifier.\n"
+												},
+												{
+													"key": "LocRef",
+													"value": "{{locRef}}",
+													"description": "The location identifier.\n"
+												},
+												{
+													"key": "RvcRef",
+													"value": "{{rvcRef}}",
+													"description": "The revenue center identifier.\n"
+												}
+											]
+										},
+										"description": "<p>{basePath}/menus/summary?orgShortName=tfoinc&locRef= fdmnh144& rvcRef=42</p>API returns a list of menu summaries for a location or revenue center in an organization.\n"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "{menuId}",
+							"item": [
+								{
+									"name": "Get a menu",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-OrgShortName",
+												"value": "{{orgShortName}}"
+											},
+											{
+												"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-LocRef",
+												"value": "{{locRef}}"
+											},
+											{
+												"description": "(Required) The revenue center identifier.\n",
+												"key": "Simphony-RvcRef",
+												"value": "{{rvcRef}}"
+											},
+											{
+												"description": "Standard http caching header (http caching link).\n",
+												"key": "If-Modified-Since",
+												"value": "<string>"
+											},
+											{
+												"description": "Standard http caching header (http caching link).\n",
+												"key": "If-None-Match",
+												"value": "<string>"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/menus/:menuId",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"menus",
+												":menuId"
+											],
+											"variable": [
+												{
+													"key": "menuId",
+													"value": "{{menuId}}",
+													"description": "(Required) The identifier for an individual menu.\n"
+												}
+											]
+										},
+										"description": "<p>{basePath}/menus/1233</p>API returns menu. A menu describes the set of items that can be ordered from a revenue center. The menu includes the menu items, prices, and related information necessary to order an item.\n"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "unavailable",
+							"item": [
+								{
+									"name": "Get the collection of unavailable menu items",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"description": "Standard http caching header (http caching link).\n",
+												"key": "If-None-Match",
+												"value": "<string>"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/menus/items/unavailable?OrgShortName={{orgShortName}}&LocRef={{locRef}}&RvcRef={{rvcRef}}",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"menus",
+												"items",
+												"unavailable"
+											],
+											"query": [
+												{
+													"key": "OrgShortName",
+													"value": "{{orgShortName}}",
+													"description": "(Required) The organization identifier.\n"
+												},
+												{
+													"key": "LocRef",
+													"value": "{{locRef}}",
+													"description": "(Required) The location identifier.\n"
+												},
+												{
+													"key": "RvcRef",
+													"value": "{{rvcRef}}",
+													"description": "(Required) The revenue center identifier.\n"
+												}
+											]
+										},
+										"description": "<p>items/unavailable?orgShortName=tfoinc&locRef= fdmnh144& rvcRef=42</p>Get a menu item availability status for menu items.\n"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "STS Gen2 Employees Service",
+			"item": [
+				{
+					"name": "Get an employee number",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{oidc_public_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "Standard http caching header (http caching link).\n",
+								"key": "If-None-Match",
+								"value": "<string>"
+							},
+							{
+								"description": "Standard http caching header (http caching link).\n",
+								"key": "If-Modified-Since",
+								"value": "<string>"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{basePath}}/employees?OrgShortName={{orgShortName}}&LocRef={{locRef}}&EmployeeId={{employeeId}}",
+							"host": [
+								"{{basePath}}"
+							],
+							"path": [
+								"employees"
+							],
+							"query": [
+								{
+									"key": "OrgShortName",
+									"value": "{{orgShortName}}",
+									"description": "(Required) The organization identifier.\n"
+								},
+								{
+									"key": "LocRef",
+									"value": "{{locRef}}",
+									"description": "(Required) The location identifier.\n"
+								},
+								{
+									"key": "EmployeeId",
+									"value": "{{employeeId}}",
+									"description": "(Required) Employee ID number."
+								}
+							]
+						},
+						"description": "<p>{basePath}/employees?OrgShortName=tfoinc&LocRef= fdmnh144&EmployeeId=5</p><p>API returns a specific employee.</p>"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "STS Gen2 Checks Service",
+			"item": [
+				{
+					"name": "calculator",
+					"item": [
+						{
+							"name": "Post calculate totals for a check",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-OrgShortName",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-LocRef",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The revenue center identifier.\n",
+										"key": "Simphony-RvcRef",
+										"value": "<integer>"
+									},
+									{
+										"description": "The Accept Language header identifies the language that is desired for the response.\n",
+										"key": "Accept-Language",
+										"value": "<string>"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"header\": {\n    \"orgShortName\": \"<string>\",\n    \"locRef\": \"<string>\",\n    \"rvcRef\": \"<integer>\",\n    \"idempotencyId\": \"e63119c2b9daa452e0e518ba268afc1e\",\n    \"checkEmployeeRef\": \"<integer>\",\n    \"orderTypeRef\": \"<integer>\",\n    \"checkRef\": \"<string>\",\n    \"checkNumber\": \"<integer>\",\n    \"checkName\": \"<string>\",\n    \"tableName\": \"<string>\",\n    \"tableGroupNumber\": \"<integer>\",\n    \"openTime\": \"<dateTime>\",\n    \"fireTime\": \"<dateTime>\",\n    \"pickupTime\": \"<dateTime>\",\n    \"guestCount\": \"<integer>\",\n    \"language\": \"<string>\",\n    \"isTrainingCheck\": \"<boolean>\",\n    \"informationLines\": [\n      \"<string>\"\n    ],\n    \"paymentStoreId\": \"<string>\",\n    \"status\": \"open\"\n  },\n  \"notificationOptions\": {\n    \"enabled\": \"<boolean>\",\n    \"url\": \"<string>\",\n    \"keyId\": \"<string>\",\n    \"key\": \"<string>\"\n  },\n  \"checkNotifications\": [\n    {\n      \"id\": \"<string>\",\n      \"creationDate\": \"<string>\",\n      \"messageType\": {\n        \"id\": \"<string>\"\n      },\n      \"resource\": {\n        \"orgShortName\": \"<string>\",\n        \"locRef\": \"<string>\",\n        \"rvcRef\": \"<string>\",\n        \"checkRef\": \"<string>\"\n      },\n      \"data\": {\n        \"status\": \"<string>\",\n        \"timeStampUtc\": \"<string>\"\n      }\n    }\n  ],\n  \"menuItems\": [\n    {\n      \"menuItemId\": \"<integer>\",\n      \"definitionSequence\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<number>\",\n      \"priceSequence\": \"<integer>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"surcharge\": \"<number>\",\n      \"itemDiscounts\": [\n        {\n          \"discountId\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"total\": \"<number>\",\n          \"isAutomatic\": \"<boolean>\",\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"condiments\": [\n        {\n          \"condimentId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ]\n        }\n      ],\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"comboMeals\": [\n    {\n      \"comboMealId\": \"<integer>\",\n      \"comboItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"mainItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"sideItems\": [\n        {\n          \"menuItemId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ],\n          \"condiments\": [\n            {\n              \"condimentId\": \"<integer>\",\n              \"definitionSequence\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"quantity\": \"<number>\",\n              \"unitPrice\": \"<number>\",\n              \"priceSequence\": \"<integer>\",\n              \"total\": \"<number>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"surcharge\": \"<number>\",\n              \"itemDiscounts\": [\n                {\n                  \"discountId\": \"<integer>\",\n                  \"name\": \"<string>\",\n                  \"seat\": \"<integer>\",\n                  \"referenceText\": \"<string>\",\n                  \"total\": \"<number>\",\n                  \"isAutomatic\": \"<boolean>\",\n                  \"extensions\": [\n                    {\n                      \"displayName\": \"<string>\",\n                      \"appName\": \"<string>\",\n                      \"dataName\": \"<string>\",\n                      \"dataType\": \"<string>\",\n                      \"data\": \"<string>\",\n                      \"options\": [\n                        \"<string>\"\n                      ]\n                    }\n                  ]\n                }\n              ]\n            }\n          ],\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"seat\": \"<integer>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"total\": \"<number>\",\n      \"isAutomatic\": \"<boolean>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"serviceCharges\": [\n    {\n      \"serviceChargeId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"extensions\": [\n    {\n      \"displayName\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"dataName\": \"<string>\",\n      \"dataType\": \"<string>\",\n      \"data\": \"<string>\",\n      \"options\": [\n        \"<string>\"\n      ]\n    }\n  ],\n  \"taxes\": [\n    {\n      \"taxRateId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\"\n    }\n  ],\n  \"tenders\": [\n    {\n      \"tenderId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"chargedTipTotal\": \"<number>\",\n      \"referenceText\": \"<string>\",\n      \"paymentData\": {\n        \"type\": \"<string>\",\n        \"data\": {}\n      },\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"totals\": {\n    \"subtotal\": \"<number>\",\n    \"subtotalDiscountTotal\": \"<number>\",\n    \"autoServiceChargeTotal\": \"<number>\",\n    \"serviceChargeTotal\": \"<number>\",\n    \"taxTotal\": \"<number>\",\n    \"paymentTotal\": \"<number>\",\n    \"totalDue\": \"<number>\"\n  }\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{basePath}}/checks/calculator",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"checks",
+										"calculator"
+									]
+								},
+								"description": "<p>The API used to calculated totals on a check.</p><p>The orgShortName, locRef, and rvcRef in the check header are used to define the context of the operation.</p>"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "{checkRef}",
+					"item": [
+						{
+							"name": "round",
+							"item": [
+								{
+									"name": "Post a new round to a check",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-OrgShortName",
+												"value": "<string>"
+											},
+											{
+												"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-LocRef",
+												"value": "<string>"
+											},
+											{
+												"description": "(Required) The revenue center identifier.\n",
+												"key": "Simphony-RvcRef",
+												"value": "<integer>"
+											},
+											{
+												"description": "The Accept Language header identifies the language that is desired for the response.\n",
+												"key": "Accept-Language",
+												"value": "<string>"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"header\": {\n    \"orgShortName\": \"<string>\",\n    \"locRef\": \"<string>\",\n    \"rvcRef\": \"<integer>\",\n    \"idempotencyId\": \"e63119c2b9daa452e0e518ba268afc1e\",\n    \"checkEmployeeRef\": \"<integer>\",\n    \"orderTypeRef\": \"<integer>\",\n    \"checkRef\": \"<string>\",\n    \"checkNumber\": \"<integer>\",\n    \"checkName\": \"<string>\",\n    \"tableName\": \"<string>\",\n    \"tableGroupNumber\": \"<integer>\",\n    \"openTime\": \"<dateTime>\",\n    \"fireTime\": \"<dateTime>\",\n    \"pickupTime\": \"<dateTime>\",\n    \"guestCount\": \"<integer>\",\n    \"language\": \"<string>\",\n    \"isTrainingCheck\": \"<boolean>\",\n    \"informationLines\": [\n      \"<string>\"\n    ],\n    \"paymentStoreId\": \"<string>\",\n    \"status\": \"open\"\n  },\n  \"notificationOptions\": {\n    \"enabled\": \"<boolean>\",\n    \"url\": \"<string>\",\n    \"keyId\": \"<string>\",\n    \"key\": \"<string>\"\n  },\n  \"checkNotifications\": [\n    {\n      \"id\": \"<string>\",\n      \"creationDate\": \"<string>\",\n      \"messageType\": {\n        \"id\": \"<string>\"\n      },\n      \"resource\": {\n        \"orgShortName\": \"<string>\",\n        \"locRef\": \"<string>\",\n        \"rvcRef\": \"<string>\",\n        \"checkRef\": \"<string>\"\n      },\n      \"data\": {\n        \"status\": \"<string>\",\n        \"timeStampUtc\": \"<string>\"\n      }\n    }\n  ],\n  \"menuItems\": [\n    {\n      \"menuItemId\": \"<integer>\",\n      \"definitionSequence\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<number>\",\n      \"priceSequence\": \"<integer>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"surcharge\": \"<number>\",\n      \"itemDiscounts\": [\n        {\n          \"discountId\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"total\": \"<number>\",\n          \"isAutomatic\": \"<boolean>\",\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"condiments\": [\n        {\n          \"condimentId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ]\n        }\n      ],\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"comboMeals\": [\n    {\n      \"comboMealId\": \"<integer>\",\n      \"comboItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"mainItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"sideItems\": [\n        {\n          \"menuItemId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ],\n          \"condiments\": [\n            {\n              \"condimentId\": \"<integer>\",\n              \"definitionSequence\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"quantity\": \"<number>\",\n              \"unitPrice\": \"<number>\",\n              \"priceSequence\": \"<integer>\",\n              \"total\": \"<number>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"surcharge\": \"<number>\",\n              \"itemDiscounts\": [\n                {\n                  \"discountId\": \"<integer>\",\n                  \"name\": \"<string>\",\n                  \"seat\": \"<integer>\",\n                  \"referenceText\": \"<string>\",\n                  \"total\": \"<number>\",\n                  \"isAutomatic\": \"<boolean>\",\n                  \"extensions\": [\n                    {\n                      \"displayName\": \"<string>\",\n                      \"appName\": \"<string>\",\n                      \"dataName\": \"<string>\",\n                      \"dataType\": \"<string>\",\n                      \"data\": \"<string>\",\n                      \"options\": [\n                        \"<string>\"\n                      ]\n                    }\n                  ]\n                }\n              ]\n            }\n          ],\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"seat\": \"<integer>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"total\": \"<number>\",\n      \"isAutomatic\": \"<boolean>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"serviceCharges\": [\n    {\n      \"serviceChargeId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"extensions\": [\n    {\n      \"displayName\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"dataName\": \"<string>\",\n      \"dataType\": \"<string>\",\n      \"data\": \"<string>\",\n      \"options\": [\n        \"<string>\"\n      ]\n    }\n  ],\n  \"taxes\": [\n    {\n      \"taxRateId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\"\n    }\n  ],\n  \"tenders\": [\n    {\n      \"tenderId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"chargedTipTotal\": \"<number>\",\n      \"referenceText\": \"<string>\",\n      \"paymentData\": {\n        \"type\": \"<string>\",\n        \"data\": {}\n      },\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"totals\": {\n    \"subtotal\": \"<number>\",\n    \"subtotalDiscountTotal\": \"<number>\",\n    \"autoServiceChargeTotal\": \"<number>\",\n    \"serviceChargeTotal\": \"<number>\",\n    \"taxTotal\": \"<number>\",\n    \"paymentTotal\": \"<number>\",\n    \"totalDue\": \"<number>\"\n  }\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{basePath}}/checks/:checkRef/round",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"checks",
+												":checkRef",
+												"round"
+											],
+											"variable": [
+												{
+													"key": "checkRef",
+													"value": "<string>",
+													"description": "(Required) Check identifier"
+												}
+											]
+										},
+										"description": "<p>{basePath}/checks/929aacee2c6d42c78ae877e824c28eed00000431/round</p><p>API adds a round to an existing check. If for some reason the update can't be made to the check due to the check's state at the POS, an appropriate HTTP response and response code will be returned. This operation does not alter items already on the check from previous rounds.</p><p>The orgShortName, locRef and rvcRef values in the Check Header are used to define the context of the operation.</p>"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "printed",
+							"item": [
+								{
+									"name": "Get printed check",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{oidc_public_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-OrgShortName",
+												"value": "<string>"
+											},
+											{
+												"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+												"key": "Simphony-LocRef",
+												"value": "<string>"
+											},
+											{
+												"description": "(Required) The revenue center identifier.\n",
+												"key": "Simphony-RvcRef",
+												"value": "<integer>"
+											},
+											{
+												"description": "The Accept Language header identifies the language that is desired for the response.\n",
+												"key": "Accept-Language",
+												"value": "<string>"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{basePath}}/checks/:checkRef/printed",
+											"host": [
+												"{{basePath}}"
+											],
+											"path": [
+												"checks",
+												":checkRef",
+												"printed"
+											],
+											"variable": [
+												{
+													"key": "checkRef",
+													"value": "<string>",
+													"description": "(Required) Check identifier"
+												}
+											]
+										},
+										"description": "<p>{basePath}/checks/929aacee2c6d42c78ae877e824c28eed00000431/printed</p><p>API returns an array of strings containing text suitable for printing on a 40-column printer.</p>"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Get a check",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-OrgShortName",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-LocRef",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The revenue center identifier.\n",
+										"key": "Simphony-RvcRef",
+										"value": "<integer>"
+									},
+									{
+										"description": "The Accept Language header identifies the language that is desired for the response.\n",
+										"key": "Accept-Language",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/checks/:checkRef",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"checks",
+										":checkRef"
+									],
+									"variable": [
+										{
+											"key": "checkRef",
+											"value": "<string>",
+											"description": "(Required) Check identifier"
+										}
+									]
+								},
+								"description": "<p>{basePath}/checks/929aacee2c6d42c78ae877e824c28eed00000431</p><p>API returns the requested check from the specified revenue center using the checkRef which can be found in the check status response once a check has been created at the POS or by using one of the other known query parameters with the GET Checks endpoint to retrieve the checkRef.</p>"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete a check",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-OrgShortName",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-LocRef",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The revenue center identifier.\n",
+										"key": "Simphony-RvcRef",
+										"value": "<integer>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/checks/:checkRef",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"checks",
+										":checkRef"
+									],
+									"variable": [
+										{
+											"key": "checkRef",
+											"value": "<string>",
+											"description": "(Required) Check identifier"
+										}
+									]
+								},
+								"description": "<p>{basePath}/checks/929aacee2c6d42c78ae877e824c28eed00000431</p><p>API cancels the requested check from the specified revenue center if present and in a state where cancelation is allowed.</p><p>Request uses the checkRef that can be found in the check header once a check has been created at the POS.</p>"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "connectionStatus",
+					"item": [
+						{
+							"name": "Head connection status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{oidc_public_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "HEAD",
+								"header": [
+									{
+										"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-OrgShortName",
+										"value": "{{orgShortName}}"
+									},
+									{
+										"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+										"key": "Simphony-LocRef",
+										"value": "<string>"
+									},
+									{
+										"description": "(Required) The revenue center identifier.\n",
+										"key": "Simphony-RvcRef",
+										"value": "<integer>"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{basePath}}/checks/connectionStatus",
+									"host": [
+										"{{basePath}}"
+									],
+									"path": [
+										"checks",
+										"connectionStatus"
+									]
+								},
+								"description": "<p>API to indicate the state of the connection for a specific revenue center for servicing requests from the STSG2 cloud endpoints. The value returned is the last known state of the connection at the time of the request and could change at any time.</p>"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Post a new check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{oidc_public_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+								"key": "Simphony-OrgShortName",
+								"value": "{{orgShortName}}"
+							},
+							{
+								"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+								"key": "Simphony-LocRef",
+								"value": "<string>"
+							},
+							{
+								"description": "(Required) The revenue center identifier.\n",
+								"key": "Simphony-RvcRef",
+								"value": "<integer>"
+							},
+							{
+								"description": "The Accept Language header identifies the language that is desired for the response.\n",
+								"key": "Accept-Language",
+								"value": "<string>"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"header\": {\n    \"orgShortName\": \"<string>\",\n    \"locRef\": \"<string>\",\n    \"rvcRef\": \"<integer>\",\n    \"idempotencyId\": \"e63119c2b9daa452e0e518ba268afc1e\",\n    \"checkEmployeeRef\": \"<integer>\",\n    \"orderTypeRef\": \"<integer>\",\n    \"checkRef\": \"<string>\",\n    \"checkNumber\": \"<integer>\",\n    \"checkName\": \"<string>\",\n    \"tableName\": \"<string>\",\n    \"tableGroupNumber\": \"<integer>\",\n    \"openTime\": \"<dateTime>\",\n    \"fireTime\": \"<dateTime>\",\n    \"pickupTime\": \"<dateTime>\",\n    \"guestCount\": \"<integer>\",\n    \"language\": \"<string>\",\n    \"isTrainingCheck\": \"<boolean>\",\n    \"informationLines\": [\n      \"<string>\"\n    ],\n    \"paymentStoreId\": \"<string>\",\n    \"status\": \"open\"\n  },\n  \"notificationOptions\": {\n    \"enabled\": \"<boolean>\",\n    \"url\": \"<string>\",\n    \"keyId\": \"<string>\",\n    \"key\": \"<string>\"\n  },\n  \"checkNotifications\": [\n    {\n      \"id\": \"<string>\",\n      \"creationDate\": \"<string>\",\n      \"messageType\": {\n        \"id\": \"<string>\"\n      },\n      \"resource\": {\n        \"orgShortName\": \"<string>\",\n        \"locRef\": \"<string>\",\n        \"rvcRef\": \"<string>\",\n        \"checkRef\": \"<string>\"\n      },\n      \"data\": {\n        \"status\": \"<string>\",\n        \"timeStampUtc\": \"<string>\"\n      }\n    }\n  ],\n  \"menuItems\": [\n    {\n      \"menuItemId\": \"<integer>\",\n      \"definitionSequence\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"quantity\": \"<number>\",\n      \"unitPrice\": \"<number>\",\n      \"priceSequence\": \"<integer>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"surcharge\": \"<number>\",\n      \"itemDiscounts\": [\n        {\n          \"discountId\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"total\": \"<number>\",\n          \"isAutomatic\": \"<boolean>\",\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"condiments\": [\n        {\n          \"condimentId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ]\n        }\n      ],\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"comboMeals\": [\n    {\n      \"comboMealId\": \"<integer>\",\n      \"comboItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"mainItem\": {\n        \"menuItemId\": \"<integer>\",\n        \"definitionSequence\": \"<integer>\",\n        \"name\": \"<string>\",\n        \"quantity\": \"<number>\",\n        \"unitPrice\": \"<number>\",\n        \"priceSequence\": \"<integer>\",\n        \"total\": \"<number>\",\n        \"seat\": \"<integer>\",\n        \"referenceText\": \"<string>\",\n        \"surcharge\": \"<number>\",\n        \"itemDiscounts\": [\n          {\n            \"discountId\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"total\": \"<number>\",\n            \"isAutomatic\": \"<boolean>\",\n            \"extensions\": [\n              {\n                \"displayName\": \"<string>\",\n                \"appName\": \"<string>\",\n                \"dataName\": \"<string>\",\n                \"dataType\": \"<string>\",\n                \"data\": \"<string>\",\n                \"options\": [\n                  \"<string>\"\n                ]\n              }\n            ]\n          }\n        ],\n        \"condiments\": [\n          {\n            \"condimentId\": \"<integer>\",\n            \"definitionSequence\": \"<integer>\",\n            \"name\": \"<string>\",\n            \"quantity\": \"<number>\",\n            \"unitPrice\": \"<number>\",\n            \"priceSequence\": \"<integer>\",\n            \"total\": \"<number>\",\n            \"seat\": \"<integer>\",\n            \"referenceText\": \"<string>\",\n            \"surcharge\": \"<number>\",\n            \"itemDiscounts\": [\n              {\n                \"discountId\": \"<integer>\",\n                \"name\": \"<string>\",\n                \"seat\": \"<integer>\",\n                \"referenceText\": \"<string>\",\n                \"total\": \"<number>\",\n                \"isAutomatic\": \"<boolean>\",\n                \"extensions\": [\n                  {\n                    \"displayName\": \"<string>\",\n                    \"appName\": \"<string>\",\n                    \"dataName\": \"<string>\",\n                    \"dataType\": \"<string>\",\n                    \"data\": \"<string>\",\n                    \"options\": [\n                      \"<string>\"\n                    ]\n                  }\n                ]\n              }\n            ]\n          }\n        ],\n        \"extensions\": [\n          {\n            \"displayName\": \"<string>\",\n            \"appName\": \"<string>\",\n            \"dataName\": \"<string>\",\n            \"dataType\": \"<string>\",\n            \"data\": \"<string>\",\n            \"options\": [\n              \"<string>\"\n            ]\n          }\n        ]\n      },\n      \"sideItems\": [\n        {\n          \"menuItemId\": \"<integer>\",\n          \"definitionSequence\": \"<integer>\",\n          \"name\": \"<string>\",\n          \"quantity\": \"<number>\",\n          \"unitPrice\": \"<number>\",\n          \"priceSequence\": \"<integer>\",\n          \"total\": \"<number>\",\n          \"seat\": \"<integer>\",\n          \"referenceText\": \"<string>\",\n          \"surcharge\": \"<number>\",\n          \"itemDiscounts\": [\n            {\n              \"discountId\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"total\": \"<number>\",\n              \"isAutomatic\": \"<boolean>\",\n              \"extensions\": [\n                {\n                  \"displayName\": \"<string>\",\n                  \"appName\": \"<string>\",\n                  \"dataName\": \"<string>\",\n                  \"dataType\": \"<string>\",\n                  \"data\": \"<string>\",\n                  \"options\": [\n                    \"<string>\"\n                  ]\n                }\n              ]\n            }\n          ],\n          \"condiments\": [\n            {\n              \"condimentId\": \"<integer>\",\n              \"definitionSequence\": \"<integer>\",\n              \"name\": \"<string>\",\n              \"quantity\": \"<number>\",\n              \"unitPrice\": \"<number>\",\n              \"priceSequence\": \"<integer>\",\n              \"total\": \"<number>\",\n              \"seat\": \"<integer>\",\n              \"referenceText\": \"<string>\",\n              \"surcharge\": \"<number>\",\n              \"itemDiscounts\": [\n                {\n                  \"discountId\": \"<integer>\",\n                  \"name\": \"<string>\",\n                  \"seat\": \"<integer>\",\n                  \"referenceText\": \"<string>\",\n                  \"total\": \"<number>\",\n                  \"isAutomatic\": \"<boolean>\",\n                  \"extensions\": [\n                    {\n                      \"displayName\": \"<string>\",\n                      \"appName\": \"<string>\",\n                      \"dataName\": \"<string>\",\n                      \"dataType\": \"<string>\",\n                      \"data\": \"<string>\",\n                      \"options\": [\n                        \"<string>\"\n                      ]\n                    }\n                  ]\n                }\n              ]\n            }\n          ],\n          \"extensions\": [\n            {\n              \"displayName\": \"<string>\",\n              \"appName\": \"<string>\",\n              \"dataName\": \"<string>\",\n              \"dataType\": \"<string>\",\n              \"data\": \"<string>\",\n              \"options\": [\n                \"<string>\"\n              ]\n            }\n          ]\n        }\n      ],\n      \"seat\": \"<integer>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"discounts\": [\n    {\n      \"discountId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"total\": \"<number>\",\n      \"isAutomatic\": \"<boolean>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"serviceCharges\": [\n    {\n      \"serviceChargeId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"seat\": \"<integer>\",\n      \"referenceText\": \"<string>\",\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"extensions\": [\n    {\n      \"displayName\": \"<string>\",\n      \"appName\": \"<string>\",\n      \"dataName\": \"<string>\",\n      \"dataType\": \"<string>\",\n      \"data\": \"<string>\",\n      \"options\": [\n        \"<string>\"\n      ]\n    }\n  ],\n  \"taxes\": [\n    {\n      \"taxRateId\": \"<string>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\"\n    }\n  ],\n  \"tenders\": [\n    {\n      \"tenderId\": \"<integer>\",\n      \"name\": \"<string>\",\n      \"total\": \"<number>\",\n      \"chargedTipTotal\": \"<number>\",\n      \"referenceText\": \"<string>\",\n      \"paymentData\": {\n        \"type\": \"<string>\",\n        \"data\": {}\n      },\n      \"extensions\": [\n        {\n          \"displayName\": \"<string>\",\n          \"appName\": \"<string>\",\n          \"dataName\": \"<string>\",\n          \"dataType\": \"<string>\",\n          \"data\": \"<string>\",\n          \"options\": [\n            \"<string>\"\n          ]\n        }\n      ]\n    }\n  ],\n  \"totals\": {\n    \"subtotal\": \"<number>\",\n    \"subtotalDiscountTotal\": \"<number>\",\n    \"autoServiceChargeTotal\": \"<number>\",\n    \"serviceChargeTotal\": \"<number>\",\n    \"taxTotal\": \"<number>\",\n    \"paymentTotal\": \"<number>\",\n    \"totalDue\": \"<number>\"\n  }\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{basePath}}/checks",
+							"host": [
+								"{{basePath}}"
+							],
+							"path": [
+								"checks"
+							]
+						},
+						"description": "<p>API to create a new check.</p><p>The orgShortName, locRef, and rvcRef values in the check header are used to define the location and revenue center where the operation will occur.</p>"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a list of checks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{oidc_public_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(Required) The organization identifier. Will be forced to lower-case.\n",
+								"key": "Simphony-OrgShortName",
+								"value": "{{orgShortName}}"
+							},
+							{
+								"description": "(Required) The location identifier. Will be forced to lower-case.\n",
+								"key": "Simphony-LocRef",
+								"value": "{{locRef}}"
+							},
+							{
+								"description": "(Required) The revenue center identifier.\n",
+								"key": "Simphony-RvcRef",
+								"value": "<integer>"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{basePath}}/checks?checkNumbers=<integer>,<integer>&checkEmployeeRef=<integer>&orderTypeRef=<integer>&sinceTime=<time>&includeClosed=<boolean>&tableName=<string>",
+							"host": [
+								"{{basePath}}"
+							],
+							"path": [
+								"checks"
+							],
+							"query": [
+								{
+									"key": "checkNumbers",
+									"value": "<integer>,<integer>",
+									"description": "Only checks with these numbers are returned. It is possible to get more than one check with the same check number.\n"
+								},
+								{
+									"key": "checkEmployeeRef",
+									"value": "<integer>",
+									"description": "The reference number of the employee that owns the check. Allows returning of checks for only a targeted employee.\n"
+								},
+								{
+									"key": "orderTypeRef",
+									"value": "<integer>",
+									"description": "Only checks of this order type are included in the results.\n"
+								},
+								{
+									"key": "sinceTime",
+									"value": "<time>",
+									"description": "Only checks created on or after this time are returned in the result. Date time is UTC.\n"
+								},
+								{
+									"key": "includeClosed",
+									"value": "<boolean>",
+									"description": "When true, both open and closed checks are included in the results, otherwise only closed checks are included. If not included as a query parameter will be assumed to be false.\n"
+								},
+								{
+									"key": "tableName",
+									"value": "<string>",
+									"description": "A table reference to filter by the table number or table name. tableName attribute can reflect either a single table number or a table name (in both cases represented by a string data type in the api). RVC option bit 18 is responsible for deciding if the value reflected in the tableName is utilized by the POS as the table name or the table number.\n"
+								}
+							]
+						},
+						"description": "<p>{basePath}/checks?checkEmployeeRef=65&sinceTime=2020-12-31T23:59Z</p><p> {basePath}/checks?orderTypeRef=2&includeClosed=true</p><p>{basePath}/checks?checkNum=976&sinceTime=2020-12-31T23:59Z&includeClosed=true</p><p>API returns the available open checks from the specified revenue center. Options to return all checks meeting a specified set of criteria is supported via query parameters. The details in these responses can then be used to retrieve the details of a specific check.</p>"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
