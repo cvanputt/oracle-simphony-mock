@@ -4,6 +4,7 @@ This project emulates **Oracle Simphony (POS)** and **OPERA (PMS)** integrations
 
 It lets you build and test against a realistic local mock of:
 
+- **Simphony OAuth2/OIDC Authentication** (PKCE flow, token management)
 - **Simphony Transaction Services** (checks, menu, tenders)
 - **OPERA guest lookup** and **folio posting**
 - Automatic folio posting when Simphony tenders a check to **Room Charge**, just like **Simphony OPERA Connection** in production
@@ -134,6 +135,50 @@ curl -s http://localhost:4020/opera/v1/folios/RES-555 | jq .
 ```
 
 Expected result: the folio shows a new line with your transaction code (default: `ROOM_SERVICE`) and the total amount of the order.
+
+---
+
+## OIDC Authentication Testing
+
+The mock also supports OAuth2 PKCE authentication flow for testing `SimphonyAuthService`:
+
+### 1. Test OpenID Configuration
+
+```bash
+curl -s "http://localhost:4010/oidc-provider/v1/.well-known/openid-configuration" | jq .
+```
+
+### 2. Test Authorization Endpoint
+
+```bash
+curl -s "http://localhost:4010/oidc-provider/v1/oauth2/authorize?response_type=code&client_id=test&scope=openid&redirect_uri=apiaccount://callback&code_challenge=test&code_challenge_method=S256"
+```
+
+### 3. Test Sign-in Endpoint
+
+```bash
+curl -s -X POST "http://localhost:4010/oidc-provider/v1/oauth2/signin" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=test&password=test" | jq .
+```
+
+### 4. Test Token Endpoint (Authorization Code)
+
+```bash
+curl -s -X POST "http://localhost:4010/oidc-provider/v1/oauth2/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=authorization_code&client_id=test&code=mock_auth_code_12345&code_verifier=test&redirect_uri=apiaccount://callback" | jq .
+```
+
+### 5. Test Token Endpoint (Refresh Token)
+
+```bash
+curl -s -X POST "http://localhost:4010/oidc-provider/v1/oauth2/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "grant_type=refresh_token&client_id=test&refresh_token=mock_refresh_token_12345&redirect_uri=apiaccount://callback" | jq .
+```
+
+For detailed OIDC integration information, see [OIDC_INTEGRATION.md](./OIDC_INTEGRATION.md).
 
 ---
 

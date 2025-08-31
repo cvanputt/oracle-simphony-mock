@@ -7,9 +7,7 @@
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
       "body": {
         "issuer": "http://localhost:4010/oidc-provider/v1",
@@ -17,21 +15,11 @@
         "token_endpoint": "http://localhost:4010/oidc-provider/v1/oauth2/token",
         "userinfo_endpoint": "http://localhost:4010/oidc-provider/v1/oauth2/userinfo",
         "jwks_uri": "http://localhost:4010/oidc-provider/v1/oauth2/jwks",
-        "response_types_supported": [
-          "code"
-        ],
-        "subject_types_supported": [
-          "public"
-        ],
-        "id_token_signing_alg_values_supported": [
-          "RS256"
-        ],
-        "scopes_supported": [
-          "openid"
-        ],
-        "code_challenge_methods_supported": [
-          "S256"
-        ]
+        "response_types_supported": ["code"],
+        "subject_types_supported": ["public"],
+        "id_token_signing_alg_values_supported": ["RS256"],
+        "scopes_supported": ["openid"],
+        "code_challenge_methods_supported": ["S256"]
       }
     }
   },
@@ -40,32 +28,17 @@
       "method": "GET",
       "path": "/oidc-provider/v1/oauth2/authorize",
       "queryStringParameters": {
-        "response_type": [
-          "code"
-        ],
-        "client_id": [
-          ".*"
-        ],
-        "scope": [
-          "openid"
-        ],
-        "redirect_uri": [
-          "apiaccount://callback"
-        ],
-        "code_challenge": [
-          ".*"
-        ],
-        "code_challenge_method": [
-          "S256"
-        ]
+        "response_type": ["code"],
+        "client_id": [".*"],
+        "scope": ["openid"],
+        "redirect_uri": ["apiaccount://callback"],
+        "code_challenge": [".*"],
+        "code_challenge_method": ["S256"]
       }
     },
     "httpResponse": {
-      "statusCode": 302,
+      "statusCode": 200,
       "headers": {
-        "Location": [
-          "apiaccount://callback?code=mock_auth_code_12345&state=mock_state"
-        ],
         "Set-Cookie": [
           "simphony_auth_session=mock_session_token; Path=/; HttpOnly; Secure"
         ]
@@ -77,22 +50,19 @@
       "method": "POST",
       "path": "/oidc-provider/v1/oauth2/signin",
       "headers": {
-        "Content-Type": [
-          "application/x-www-form-urlencoded"
-        ]
+        "Content-Type": ["application/x-www-form-urlencoded"],
+        "Cookie": [".*"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json;charset=utf-8"]
       },
       "body": {
+        "nextOp": "redirect",
         "success": true,
-        "message": "User signed in successfully",
-        "sessionId": "mock_session_12345"
+        "redirectUrl": "apiaccount://callback?code=mock_auth_code_12345"
       }
     }
   },
@@ -101,30 +71,18 @@
       "method": "POST",
       "path": "/oidc-provider/v1/oauth2/token",
       "headers": {
-        "Content-Type": [
-          "application/x-www-form-urlencoded"
-        ]
-      },
-      "body": {
-        "type": "FORM",
-        "parameters": {
-          "grant_type": [
-            "authorization_code"
-          ]
-        }
+        "Content-Type": ["application/x-www-form-urlencoded"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
       "body": {
         "access_token": "mock_access_token_12345",
         "token_type": "Bearer",
-        "expires_in": 3600,
+        "expires_in": "1209600",
         "refresh_token": "mock_refresh_token_12345",
         "id_token": "mock_id_token_12345",
         "scope": "openid"
@@ -136,31 +94,19 @@
       "method": "POST",
       "path": "/oidc-provider/v1/oauth2/token",
       "headers": {
-        "Content-Type": [
-          "application/x-www-form-urlencoded"
-        ]
-      },
-      "body": {
-        "type": "FORM",
-        "parameters": {
-          "grant_type": [
-            "refresh_token"
-          ]
-        }
+        "Content-Type": ["application/x-www-form-urlencoded"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json;charset=utf-8"]
       },
       "body": {
         "access_token": "mock_access_token_refreshed_12345",
         "token_type": "Bearer",
-        "expires_in": 3600,
-        "refresh_token": "mock_refresh_token_refreshed_12345",
+        "expires_in": "1209600",
+        "refresh_token": "mock_refresh_token_12345",
         "id_token": "mock_id_token_refreshed_12345",
         "scope": "openid"
       }
@@ -171,69 +117,77 @@
       "method": "GET",
       "path": "/api/v2/menus/summary",
       "queryStringParameters": {
-        "OrgShortName": [
-          ".*"
-        ],
-        "LocRef": [
-          ".*"
-        ],
-        "RvcRef": [
-          ".*"
-        ]
+        "OrgShortName": [".*"],
+        "LocRef": [".*"],
+        "RvcRef": [".*"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
-      "body": [
-        {
-          "menuId": "1233",
-          "name": "Main Menu",
-          "description": "Primary menu for the restaurant",
-          "active": true,
-          "revenueCenterId": "RC-1"
-        },
-        {
-          "menuId": "1234",
-          "name": "Bar Menu",
-          "description": "Beverages and bar snacks",
-          "active": true,
-          "revenueCenterId": "RC-1"
-        }
-      ]
-    }
+      "body": {
+        "items": [
+          {
+            "orgShortName": "mymeal",
+            "locRef": "store66",
+            "rvcRef": 2,
+            "menuId": "myb:store2:dining",
+            "name": "Dining Menu"
+          },
+          {
+            "orgShortName": "mymeal",
+            "locRef": "store66",
+            "rvcRef": 3,
+            "menuId": "myb:store2:bar",
+            "name": "Bar Menu"
+          },
+          {
+            "orgShortName": "mymeal",
+            "locRef": "store66",
+            "rvcRef": 4,
+            "menuId": "myb:store2:dessert",
+            "name": "Dessert Menu"
+          },
+          {
+            "orgShortName": "mymeal",
+            "locRef": "store67",
+            "rvcRef": 1,
+            "menuId": "myb:store3:lunch",
+            "name": "Lunch Specials"
+          },
+          {
+            "orgShortName": "mymeal",
+            "locRef": "store67",
+            "rvcRef": 2,
+            "menuId": "myb:store3:dinner",
+            "name": "Dinner Menu"
+          }
+        ]
+      }
+    },
+    "priority": 10
   },
   {
     "httpRequest": {
       "method": "GET",
       "path": "/api/v2/menus/.*",
       "headers": {
-        "Simphony-OrgShortName": [
-          ".*"
-        ],
-        "Simphony-LocRef": [
-          ".*"
-        ],
-        "Simphony-RvcRef": [
-          ".*"
-        ]
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-LocRef": [".*"],
+        "Simphony-RvcRef": [".*"]
       }
     },
     "httpResponse": {
       "statusCode": 200,
       "headers": {
-        "Content-Type": [
-          "application/json"
-        ]
+        "Content-Type": ["application/json"]
       },
       "body": {
         "menuItems": [
           {
-            "menuItemId": 1001,
+            "menuItemId": "myb:store2:dining",
             "name": {
               "en-US": "Classic Cheeseburger",
               "es-ES": "Hamburguesa Clásica con Queso"
@@ -317,11 +271,7 @@
                   "en-US": "Contains: Gluten, Dairy, Soy",
                   "es-ES": "Contiene: Gluten, Lácteos, Soja"
                 },
-                "allergens": [
-                  "gluten",
-                  "dairy",
-                  "soy"
-                ],
+                "allergens": ["gluten", "dairy", "soy"],
                 "nutritionalData": [
                   {
                     "nutritionalItemId": "calories",
@@ -342,34 +292,18 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "hot",
-                  "popular",
-                  "main-course"
-                ],
+                "options": ["allowCondimentPrefix"],
+                "tags": ["hot", "popular", "main-course"],
                 "tagGroups": [
                   {
                     "id": "dietary",
-                    "tags": [
-                      "contains-gluten",
-                      "contains-dairy"
-                    ]
+                    "tags": ["contains-gluten", "contains-dairy"]
                   }
                 ]
               }
             ],
-            "dietaryInformation": [
-              "contains-gluten",
-              "contains-dairy"
-            ],
-            "tags": [
-              "hot",
-              "popular",
-              "main-course"
-            ]
+            "dietaryInformation": ["contains-gluten", "contains-dairy"],
+            "tags": ["hot", "popular", "main-course"]
           },
           {
             "menuItemId": 1002,
@@ -452,11 +386,7 @@
                   "en-US": "Contains: Gluten, Dairy, Eggs",
                   "es-ES": "Contiene: Gluten, Lácteos, Huevos"
                 },
-                "allergens": [
-                  "gluten",
-                  "dairy",
-                  "eggs"
-                ],
+                "allergens": ["gluten", "dairy", "eggs"],
                 "nutritionalData": [
                   {
                     "nutritionalItemId": "calories",
@@ -477,22 +407,12 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "cold",
-                  "healthy",
-                  "vegetarian"
-                ],
+                "options": ["allowCondimentPrefix"],
+                "tags": ["cold", "healthy", "vegetarian"],
                 "tagGroups": [
                   {
                     "id": "dietary",
-                    "tags": [
-                      "contains-gluten",
-                      "contains-dairy",
-                      "vegetarian"
-                    ]
+                    "tags": ["contains-gluten", "contains-dairy", "vegetarian"]
                   }
                 ]
               }
@@ -502,11 +422,7 @@
               "contains-dairy",
               "vegetarian"
             ],
-            "tags": [
-              "cold",
-              "healthy",
-              "vegetarian"
-            ]
+            "tags": ["cold", "healthy", "vegetarian"]
           },
           {
             "menuItemId": 1003,
@@ -594,10 +510,7 @@
                   "en-US": "Contains: Gluten, Dairy",
                   "es-ES": "Contiene: Gluten, Lácteos"
                 },
-                "allergens": [
-                  "gluten",
-                  "dairy"
-                ],
+                "allergens": ["gluten", "dairy"],
                 "nutritionalData": [
                   {
                     "nutritionalItemId": "calories",
@@ -609,22 +522,12 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "hot",
-                  "popular",
-                  "vegetarian"
-                ],
+                "options": ["allowCondimentPrefix"],
+                "tags": ["hot", "popular", "vegetarian"],
                 "tagGroups": [
                   {
                     "id": "dietary",
-                    "tags": [
-                      "contains-gluten",
-                      "contains-dairy",
-                      "vegetarian"
-                    ]
+                    "tags": ["contains-gluten", "contains-dairy", "vegetarian"]
                   }
                 ]
               }
@@ -634,11 +537,7 @@
               "contains-dairy",
               "vegetarian"
             ],
-            "tags": [
-              "hot",
-              "popular",
-              "vegetarian"
-            ]
+            "tags": ["hot", "popular", "vegetarian"]
           },
           {
             "menuItemId": 1004,
@@ -726,10 +625,7 @@
                   "en-US": "Contains: Gluten, Dairy",
                   "es-ES": "Contiene: Gluten, Lácteos"
                 },
-                "allergens": [
-                  "gluten",
-                  "dairy"
-                ],
+                "allergens": ["gluten", "dairy"],
                 "nutritionalData": [
                   {
                     "nutritionalItemId": "calories",
@@ -741,34 +637,18 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "hot",
-                  "spicy",
-                  "appetizer"
-                ],
+                "options": ["allowCondimentPrefix"],
+                "tags": ["hot", "spicy", "appetizer"],
                 "tagGroups": [
                   {
                     "id": "dietary",
-                    "tags": [
-                      "contains-gluten",
-                      "contains-dairy"
-                    ]
+                    "tags": ["contains-gluten", "contains-dairy"]
                   }
                 ]
               }
             ],
-            "dietaryInformation": [
-              "contains-gluten",
-              "contains-dairy"
-            ],
-            "tags": [
-              "hot",
-              "spicy",
-              "appetizer"
-            ]
+            "dietaryInformation": ["contains-gluten", "contains-dairy"],
+            "tags": ["hot", "spicy", "appetizer"]
           },
           {
             "menuItemId": 1005,
@@ -856,9 +736,7 @@
                   "en-US": "Contains: Dairy",
                   "es-ES": "Contiene: Lácteos"
                 },
-                "allergens": [
-                  "dairy"
-                ],
+                "allergens": ["dairy"],
                 "nutritionalData": [
                   {
                     "nutritionalItemId": "calories",
@@ -870,34 +748,18 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "cold",
-                  "beverage",
-                  "caffeine"
-                ],
+                "options": ["allowCondimentPrefix"],
+                "tags": ["cold", "beverage", "caffeine"],
                 "tagGroups": [
                   {
                     "id": "dietary",
-                    "tags": [
-                      "contains-dairy",
-                      "contains-caffeine"
-                    ]
+                    "tags": ["contains-dairy", "contains-caffeine"]
                   }
                 ]
               }
             ],
-            "dietaryInformation": [
-              "contains-dairy",
-              "contains-caffeine"
-            ],
-            "tags": [
-              "cold",
-              "beverage",
-              "caffeine"
-            ]
+            "dietaryInformation": ["contains-dairy", "contains-caffeine"],
+            "tags": ["cold", "beverage", "caffeine"]
           }
         ],
         "comboMeals": [
@@ -1014,22 +876,12 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "condiment",
-                  "vegetarian"
-                ]
+                "options": ["allowCondimentPrefix"],
+                "tags": ["condiment", "vegetarian"]
               }
             ],
-            "dietaryInformation": [
-              "vegetarian"
-            ],
-            "tags": [
-              "condiment",
-              "vegetarian"
-            ]
+            "dietaryInformation": ["vegetarian"],
+            "tags": ["condiment", "vegetarian"]
           },
           {
             "name": {
@@ -1087,22 +939,12 @@
                     }
                   }
                 ],
-                "options": [
-                  "allowCondimentPrefix"
-                ],
-                "tags": [
-                  "condiment",
-                  "vegetarian"
-                ]
+                "options": ["allowCondimentPrefix"],
+                "tags": ["condiment", "vegetarian"]
               }
             ],
-            "dietaryInformation": [
-              "vegetarian"
-            ],
-            "tags": [
-              "condiment",
-              "vegetarian"
-            ]
+            "dietaryInformation": ["vegetarian"],
+            "tags": ["condiment", "vegetarian"]
           }
         ],
         "condimentGroups": [
@@ -1286,7 +1128,12 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": "/checks/.*"
+      "path": "/checks/.*",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
     },
     "httpForward": {
       "host": "simphony-state",
@@ -1297,7 +1144,12 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/checks"
+      "path": "/checks",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
     },
     "httpForward": {
       "host": "simphony-state",
@@ -1308,7 +1160,12 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/checks/.*/items"
+      "path": "/checks/.*/items",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
     },
     "httpForward": {
       "host": "simphony-state",
@@ -1319,7 +1176,12 @@
   {
     "httpRequest": {
       "method": "POST",
-      "path": "/checks/.*/tenders"
+      "path": "/checks/.*/tenders",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
     },
     "httpForward": {
       "host": "simphony-state",

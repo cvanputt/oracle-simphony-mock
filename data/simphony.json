@@ -1,1 +1,18 @@
-{}
+{
+  "checks": {
+    "CHK-9988": {
+      "checkId": "CHK-9988",
+      "checkNumber": 6655,
+      "tableName": "Table 13",
+      "employeeRef": 191,
+      "orderTypeRef": 1,
+      "status": "OPEN",
+      "createdTime": "2025-08-31T23:17:22.570Z",
+      "items": [],
+      "subtotal": 0,
+      "tax": 0,
+      "service": 0,
+      "total": 0
+    }
+  }
+}

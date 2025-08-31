@@ -10,6 +10,39 @@ app.use((req, res, next) => {
   next();
 });
 
+// Validation middleware for required Simphony headers
+const validateSimphonyHeaders = (req, res, next) => {
+  const requiredHeaders = [
+    'Simphony-LocRef',
+    'Simphony-OrgShortName',
+    'Simphony-RvcRef',
+  ];
+
+  const missingHeaders = requiredHeaders.filter(
+    (header) => !req.headers[header.toLowerCase()]
+  );
+
+  if (missingHeaders.length > 0) {
+    return res.status(400).json({
+      error: 'Bad Request',
+      message: `Missing required headers: ${missingHeaders.join(', ')}`,
+      code: 'MISSING_HEADERS',
+    });
+  }
+
+  // Validate Simphony-RvcRef is an integer
+  const rvcRef = req.headers['simphony-rvcref'];
+  if (isNaN(parseInt(rvcRef))) {
+    return res.status(400).json({
+      error: 'Bad Request',
+      message: 'Simphony-RvcRef must be an integer',
+      code: 'INVALID_RVCREF',
+    });
+  }
+
+  next();
+};
+
 // simple JSON file "datastore"
 const DB = process.env.TEST_DB_PATH || '/app/data/simphony.json';
 function load() {
@@ -34,7 +67,7 @@ const TAX = 0.09,
   SVC = 0.1;
 
 // get all checks
-app.get('/checks', (req, res) => {
+app.get('/checks', validateSimphonyHeaders, (req, res) => {
   const db = load();
   let checks = Object.values(db.checks || {});
 
@@ -102,7 +135,7 @@ app.get('/checks', (req, res) => {
 });
 
 // create check
-app.post('/checks', (req, res) => {
+app.post('/checks', validateSimphonyHeaders, (req, res) => {
   const db = load();
   db.checks ||= {};
   const checkId = 'CHK-' + Math.floor(1000 + Math.random() * 9000);
@@ -128,7 +161,7 @@ app.post('/checks', (req, res) => {
 });
 
 // add items to check
-app.post('/checks/:checkId/items', (req, res) => {
+app.post('/checks/:checkId/items', validateSimphonyHeaders, (req, res) => {
   const {checkId} = req.params;
   const {items = []} = req.body || {};
   const db = load();
@@ -152,100 +185,105 @@ app.post('/checks/:checkId/items', (req, res) => {
 });
 
 // tender (ROOM_CHARGE) with env-driven trx code and optional auto-post to OPERA
-app.post('/checks/:checkId/tenders', async (req, res) => {
-  const {checkId} = req.params;
+app.post(
+  '/checks/:checkId/tenders',
+  validateSimphonyHeaders,
+  async (req, res) => {
+    const {checkId} = req.params;
 
-  const defaultTxCode = process.env.SIMPHONY_TRANSACTION_CODE || 'ROOM_SERVICE';
-  const {
-    type,
-    roomNumber,
-    lastName,
-    transactionCode, // optional per-request override
-  } = req.body || {};
-  const trxCodeToUse = transactionCode || defaultTxCode;
+    const defaultTxCode =
+      process.env.SIMPHONY_TRANSACTION_CODE || 'ROOM_SERVICE';
+    const {
+      type,
+      roomNumber,
+      lastName,
+      transactionCode, // optional per-request override
+    } = req.body || {};
+    const trxCodeToUse = transactionCode || defaultTxCode;
 
-  const db = load();
-  const check = db.checks?.[checkId];
-  if (!check) return res.status(404).json({error: 'check not found'});
+    const db = load();
+    const check = db.checks?.[checkId];
+    if (!check) return res.status(404).json({error: 'check not found'});
 
-  if (check.status === 'CLOSED') {
-    return res.status(409).json({error: 'check is already closed'});
-  }
-
-  if (type !== 'ROOM_CHARGE' || !roomNumber || !lastName) {
-    return res
-      .status(400)
-      .json({error: 'require type=ROOM_CHARGE, roomNumber, lastName'});
-  }
-
-  const autoPost =
-    String(process.env.SIMPHONY_AUTO_POST ?? 'true').toLowerCase() === 'true';
-
-  try {
-    let reservationId = null,
-      postingId = null;
-
-    if (autoPost) {
-      // 1) OPERA guest lookup
-      const qs = new URLSearchParams({
-        room: String(roomNumber),
-        lastName: String(lastName),
-      }).toString();
-      const guestResp = await fetch(
-        `http://opera-state:5000/opera/v1/guests?${qs}`
-      );
-      if (!guestResp.ok)
-        return res.status(409).json({
-          error: 'guest not found or not in-house (OPERA lookup failed)',
-        });
-      const guest = await guestResp.json();
-      reservationId = guest.reservationId;
-
-      // 2) Post folio charge with chosen transaction code
-      const postResp = await fetch(
-        `http://opera-state:5000/opera/v1/folios/${encodeURIComponent(
-          reservationId
-        )}/charges`,
-        {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            amount: check.total,
-            transactionCode: trxCodeToUse,
-          }),
-        }
-      );
-      if (!postResp.ok)
-        return res.status(502).json({
-          error: 'OPERA folio posting failed',
-          details: await postResp.text(),
-        });
-      const posting = await postResp.json();
-      postingId = posting.postingId;
+    if (check.status === 'CLOSED') {
+      return res.status(409).json({error: 'check is already closed'});
     }
 
-    // 3) Close the check and persist
-    check.status = 'CLOSED';
-    save(db);
+    if (type !== 'ROOM_CHARGE' || !roomNumber || !lastName) {
+      return res
+        .status(400)
+        .json({error: 'require type=ROOM_CHARGE, roomNumber, lastName'});
+    }
 
-    res.status(202).json({
-      checkId,
-      status: 'CLOSED',
-      postedToOpera: autoPost,
-      postingId,
-      reservationId,
-      transactionCode: trxCodeToUse,
-      total: check.total,
-    });
-  } catch (e) {
-    res
-      .status(500)
-      .json({error: 'tender processing error', details: String(e)});
+    const autoPost =
+      String(process.env.SIMPHONY_AUTO_POST ?? 'true').toLowerCase() === 'true';
+
+    try {
+      let reservationId = null,
+        postingId = null;
+
+      if (autoPost) {
+        // 1) OPERA guest lookup
+        const qs = new URLSearchParams({
+          room: String(roomNumber),
+          lastName: String(lastName),
+        }).toString();
+        const guestResp = await fetch(
+          `http://opera-state:5000/opera/v1/guests?${qs}`
+        );
+        if (!guestResp.ok)
+          return res.status(409).json({
+            error: 'guest not found or not in-house (OPERA lookup failed)',
+          });
+        const guest = await guestResp.json();
+        reservationId = guest.reservationId;
+
+        // 2) Post folio charge with chosen transaction code
+        const postResp = await fetch(
+          `http://opera-state:5000/opera/v1/folios/${encodeURIComponent(
+            reservationId
+          )}/charges`,
+          {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              amount: check.total,
+              transactionCode: trxCodeToUse,
+            }),
+          }
+        );
+        if (!postResp.ok)
+          return res.status(502).json({
+            error: 'OPERA folio posting failed',
+            details: await postResp.text(),
+          });
+        const posting = await postResp.json();
+        postingId = posting.postingId;
+      }
+
+      // 3) Close the check and persist
+      check.status = 'CLOSED';
+      save(db);
+
+      res.status(202).json({
+        checkId,
+        status: 'CLOSED',
+        postedToOpera: autoPost,
+        postingId,
+        reservationId,
+        transactionCode: trxCodeToUse,
+        total: check.total,
+      });
+    } catch (e) {
+      res
+        .status(500)
+        .json({error: 'tender processing error', details: String(e)});
+    }
   }
-});
+);
 
 // get check
-app.get('/checks/:checkId', (req, res) => {
+app.get('/checks/:checkId', validateSimphonyHeaders, (req, res) => {
   const {checkId} = req.params;
   const db = load();
   const check = db.checks?.[checkId];
