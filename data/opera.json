@@ -1,1 +1,48 @@
-{}
+{
+  "guests": {
+    "203:nguyen": {
+      "reservationId": "RES-555",
+      "folioWindow": 1,
+      "guestName": "Taylor Nguyen",
+      "guestLastName": "Nguyen",
+      "roomNumber": "203",
+      "inHouse": true
+    }
+  },
+  "folios": {
+    "RES-555": {
+      "reservationId": "RES-555",
+      "window": 1,
+      "lines": [
+        {
+          "postingId": "POST-fo60tu",
+          "trxCode": "ROOM_SERVICE",
+          "amount": 58.31
+        },
+        {
+          "postingId": "POST-7izmvi",
+          "trxCode": "ROOM_SERVICE",
+          "amount": 22.61
+        },
+        {
+          "postingId": "POST-1jo4fv",
+          "trxCode": "ROOM_SERVICE",
+          "amount": 22.61,
+          "hotelId": "HOTEL_001"
+        },
+        {
+          "postingId": "POST-b8f548",
+          "trxCode": "ROOM_SERVICE",
+          "amount": 0,
+          "hotelId": "HOTEL_001"
+        },
+        {
+          "postingId": "POST-71qssq",
+          "trxCode": "ROOM_SERVICE",
+          "amount": 0,
+          "hotelId": "HOTEL_001"
+        }
+      ]
+    }
+  }
+}

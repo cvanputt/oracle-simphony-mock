@@ -83,48 +83,58 @@ curl -s -X POST http://localhost:5102/__seed/guest \
 ### 2. Fetch Menu Summaries (via Simphony Mock)
 
 ```bash
-curl -s "http://localhost:4010/menus/summary?OrgShortName=test&LocRef=test&RvcRef=test" | jq .
+curl -s "http://localhost:4010/api/v2/menus/summary?OrgShortName=test&LocRef=test&RvcRef=test" | jq .
 ```
 
 ### 3. Fetch Specific Menu (via Simphony Mock)
 
 ```bash
-curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: test" http://localhost:4010/menus/1233 | jq .
+curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: test" http://localhost:4010/api/v2/menus/1233 | jq .
 ```
 
 ### 4. Fetch Checks (via Simphony Mock)
 
 ```bash
-# Get all checks
-curl -s "http://localhost:4010/checks" | jq .
+# Get all checks (requires Simphony headers)
+curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: 1" "http://localhost:4010/checks" | jq .
 
 # Get checks with query parameters
-curl -s "http://localhost:4010/checks?checkEmployeeRef=123&includeClosed=true&orderTypeRef=1&tableName=Table%201" | jq .
+curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: 1" "http://localhost:4010/checks?checkEmployeeRef=123&includeClosed=true&orderTypeRef=1&tableName=Table%201" | jq .
 
 # Get specific check by ID
-curl -s "http://localhost:4010/checks/CHK-001" | jq .
+curl -s -H "Simphony-OrgShortName: test" -H "Simphony-LocRef: test" -H "Simphony-RvcRef: 1" "http://localhost:4010/checks/CHK-001" | jq .
 ```
 
 ### 5. Create a Check
 
 ```bash
-CHK=$(curl -s -X POST http://localhost:4010/sts/v2/checks | jq -r .checkId)
+CHK=$(curl -s -X POST http://localhost:4010/checks \
+  -H 'Content-Type: application/json' \
+  -H "Simphony-OrgShortName: test" \
+  -H "Simphony-LocRef: test" \
+  -H "Simphony-RvcRef: 1" | jq -r .header.checkRef)
 echo "Check ID: $CHK"
 ```
 
 ### 6. Add Items to Check
 
 ```bash
-curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/items \
+curl -s -X POST http://localhost:4010/checks/$CHK/items \
   -H 'Content-Type: application/json' \
+  -H "Simphony-OrgShortName: test" \
+  -H "Simphony-LocRef: test" \
+  -H "Simphony-RvcRef: 1" \
   -d '{"items":[{"sku":"RS-BURGER","qty":1},{"sku":"RS-FRIES","qty":1}]}' | jq .
 ```
 
 ### 7. Tender to Room Charge (auto-posts to OPERA)
 
 ```bash
-curl -s -X POST http://localhost:4010/sts/v2/checks/$CHK/tenders \
+curl -s -X POST http://localhost:4010/checks/$CHK/tenders \
   -H 'Content-Type: application/json' \
+  -H "Simphony-OrgShortName: test" \
+  -H "Simphony-LocRef: test" \
+  -H "Simphony-RvcRef: 1" \
   -d '{"type":"ROOM_CHARGE","roomNumber":"203","lastName":"Nguyen"}' | jq .
 ```
 
@@ -188,6 +198,58 @@ For detailed OIDC integration information, see [OIDC_INTEGRATION.md](./OIDC_INTE
 - Use `SIMPHONY_AUTO_POST=false` if you want to test manual folio posting workflows.
 - Use `transactionCode` in the tender payload to override the environment default.
 
+## Testing Script
+
+The project includes a comprehensive test script that validates the full integration:
+
+```bash
+npm run test-guest-lookup
+```
+
+This script tests the complete flow:
+1. Seeds a guest in OPERA
+2. Creates a check in Simphony  
+3. Adds items to the check
+4. Validates guest lookup and room charge tendering
+5. Verifies the charge was posted to OPERA folio
+
 ---
 
-Would you like me to also add a **section with sample request/response payloads** (like a mini API reference) to the README so developers know exactly what to send and expect for each endpoint?
+## API Endpoints Reference
+
+### Simphony APIs (via Mock)
+
+| Method | Endpoint | Purpose | Headers Required |
+|--------|----------|---------|------------------|
+| GET | `/api/v2/menus/summary` | List available menus | None |
+| GET | `/api/v2/menus/{menuId}` | Get specific menu details | `Simphony-*` |
+| GET | `/checks` | List all checks | `Simphony-*` |
+| GET | `/checks/{checkId}` | Get specific check | `Simphony-*` |
+| POST | `/checks` | Create new check | `Simphony-*` |
+| POST | `/checks/{checkId}/items` | Add items to check | `Simphony-*` |
+| POST | `/checks/{checkId}/tenders` | Tender check | `Simphony-*` |
+
+**Required Simphony Headers:**
+- `Simphony-OrgShortName`: Organization short name
+- `Simphony-LocRef`: Location reference  
+- `Simphony-RvcRef`: Revenue center reference (integer)
+
+### OPERA APIs (via Mock)
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | `/opera/v1/guests` | Guest lookup by room/lastName |
+| GET | `/opera/v1/folios/{reservationId}` | Get guest folio |
+| POST | `/opera/v1/folios/{reservationId}/charges` | Post charge to folio |
+| POST | `/__seed/guest` | Seed test guest data |
+
+### OIDC Authentication APIs
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| GET | `/oidc-provider/v1/.well-known/openid-configuration` | OpenID configuration |
+| GET | `/oidc-provider/v1/oauth2/authorize` | Authorization endpoint |
+| POST | `/oidc-provider/v1/oauth2/signin` | User sign-in |
+| POST | `/oidc-provider/v1/oauth2/token` | Token exchange |
+
+---

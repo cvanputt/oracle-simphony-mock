@@ -1,26 +1,13 @@
 [ {
+  "httpForward" : {
+    "host" : "opera-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
   "httpRequest" : {
-    "method" : "GET",
-    "path" : "/opera/v1/guests",
-    "queryStringParameters" : {
-      "room" : [ "203" ],
-      "lastName" : [ "(?i)Nguyen" ]
-    }
+    "path" : "/rsv/v1/hotels/.*/reservations"
   },
-  "httpResponse" : {
-    "statusCode" : 200,
-    "headers" : {
-      "Content-Type" : [ "application/json" ]
-    },
-    "body" : {
-      "reservationId" : "RES-555",
-      "folioWindow" : 1,
-      "guestName" : "Taylor Nguyen",
-      "roomNumber" : "203",
-      "inHouse" : true
-    }
-  },
-  "id" : "b6262246-0fd5-3ab5-bd8d-e862b76587bf",
+  "id" : "5f1702aa-2cc1-3655-8dd7-3c38fb22471b",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true
@@ -35,9 +22,9 @@
     "scheme" : "HTTP"
   },
   "httpRequest" : {
-    "path" : "/opera/v1/guests"
+    "path" : "/csh/v1/hotels/.*/reservations/.*/charges"
   },
-  "id" : "19c7f4a8-f6c9-3af8-9f5d-4cb57ec1c9a4",
+  "id" : "216f20ff-2147-3e26-af93-185bfa5713ae",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true
@@ -52,9 +39,9 @@
     "scheme" : "HTTP"
   },
   "httpRequest" : {
-    "path" : "/opera/v1/folios/.*"
+    "path" : "/csh/v1/hotels/.*/reservations/.*/folios"
   },
-  "id" : "4b8937de-cafc-32fe-ba3b-d5014b4baaa4",
+  "id" : "c74a40d5-5a64-37d5-a84d-311b3d452492",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true

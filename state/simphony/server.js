@@ -66,6 +66,26 @@ const price = {
 const TAX = 0.09,
   SVC = 0.1;
 
+const calculateTotals = (body) => {
+  const totals = {
+    subtotal: 0,
+    subtotalDiscountTotal: 0,
+    autoServiceChargeTotal: 0,
+    serviceChargeTotal: 0,
+    taxTotal: 0,
+    paymentTotal: 0,
+    totalDue: 0,
+  };
+
+  body.menuItems.forEach((item) => {
+    totals.subtotal += item.total;
+    totals.taxTotal += item.taxTotal;
+    totals.serviceChargeTotal += item.serviceChargeTotal;
+    totals.totalDue += item.total;
+  });
+  return totals;
+};
+
 // get all checks
 app.get('/checks', validateSimphonyHeaders, (req, res) => {
   const db = load();
@@ -85,7 +105,9 @@ app.get('/checks', validateSimphonyHeaders, (req, res) => {
   if (checkEmployeeRef) {
     const employeeRef = parseInt(checkEmployeeRef);
     if (!isNaN(employeeRef)) {
-      checks = checks.filter((check) => check.employeeRef === employeeRef);
+      checks = checks.filter(
+        (check) => check.header.checkEmployeeRef === employeeRef
+      );
     }
   }
 
@@ -97,21 +119,23 @@ app.get('/checks', validateSimphonyHeaders, (req, res) => {
       .filter((n) => !isNaN(n));
     if (validNumbers.length > 0) {
       checks = checks.filter((check) =>
-        validNumbers.includes(check.checkNumber)
+        validNumbers.includes(check.header.checkNumber)
       );
     }
   }
 
   // Filter by includeClosed (default to true if not specified)
   if (includeClosed === 'false') {
-    checks = checks.filter((check) => check.status !== 'CLOSED');
+    checks = checks.filter((check) => check.header.status !== 'closed');
   }
 
   // Filter by order type reference
   if (orderTypeRef) {
     const orderType = parseInt(orderTypeRef);
     if (!isNaN(orderType)) {
-      checks = checks.filter((check) => check.orderTypeRef === orderType);
+      checks = checks.filter(
+        (check) => check.header.orderTypeRef === orderType
+      );
     }
   }
 
@@ -120,7 +144,7 @@ app.get('/checks', validateSimphonyHeaders, (req, res) => {
     const sinceDate = new Date(sinceTime);
     if (!isNaN(sinceDate.getTime())) {
       checks = checks.filter((check) => {
-        const checkTime = new Date(check.createdTime);
+        const checkTime = new Date(check.header.openTime);
         return checkTime >= sinceDate;
       });
     }
@@ -128,7 +152,7 @@ app.get('/checks', validateSimphonyHeaders, (req, res) => {
 
   // Filter by table name
   if (tableName) {
-    checks = checks.filter((check) => check.tableName === tableName);
+    checks = checks.filter((check) => check.header.tableName === tableName);
   }
 
   res.json(checks);
@@ -141,23 +165,65 @@ app.post('/checks', validateSimphonyHeaders, (req, res) => {
   const checkId = 'CHK-' + Math.floor(1000 + Math.random() * 9000);
   const checkNumber = Math.floor(1000 + Math.random() * 9000);
 
-  db.checks[checkId] = {
-    checkId,
-    checkNumber,
-    tableName:
-      req.body.tableName || `Table ${Math.floor(Math.random() * 20) + 1}`,
-    employeeRef: req.body.employeeRef || Math.floor(Math.random() * 100) + 100,
-    orderTypeRef: req.body.orderTypeRef || 1,
-    status: 'OPEN',
-    createdTime: new Date().toISOString(),
-    items: [],
-    subtotal: 0,
-    tax: 0,
-    service: 0,
-    total: 0,
+  const calculatedTotals = calculateTotals(req.body);
+
+  // Create response in Simphony Gen2 API format
+  const checkResponse = {
+    header: {
+      orgShortName: req.headers['simphony-orgshortname'] || 'TEST_ORG',
+      locRef: req.headers['simphony-locref'] || 'TEST_LOC',
+      rvcRef: parseInt(req.headers['simphony-rvcref']) || 1,
+      checkRef: checkId,
+      idempotencyId: req.body.header?.idempotencyId || `idemp-${Date.now()}`,
+      checkNumber: checkNumber,
+      checkName: req.body.header?.checkName || `Check ${checkNumber}`,
+      checkEmployeeRef: req.body.header?.checkEmployeeRef || 1,
+      orderTypeRef: req.body.header?.orderTypeRef || 1,
+      tableName:
+        req.body.header?.tableName ||
+        `Table ${Math.floor(Math.random() * 20) + 1}`,
+      guestCount: req.body.header?.guestCount || 1,
+      openTime: new Date().toISOString(),
+      status: 'open',
+      preparationStatus: 'Uninitialized',
+    },
+    menuItems: req.body.menuItems || [],
+    comboMeals: req.body.comboMeals || [],
+    discounts: req.body.discounts || [],
+    serviceCharges: req.body.serviceCharges || [],
+    extensions: req.body.extensions || [],
+    taxes: req.body.taxes || [],
+    tenders: req.body.tenders || [],
+    checkPrintedLines: {
+      lines: [
+        `${checkNumber} STS                            Page 1`,
+        '----------------------------------------',
+        `CHK ${checkNumber}                           TBL ${
+          req.body.header?.tableName || '1'
+        }`,
+        `               ${new Date().toLocaleDateString()}                `,
+        '----------------------------------------',
+        '       DineIn                           ',
+        '  ----------- Check Open -----------  ',
+        `           ${new Date().toLocaleString()}            `,
+      ],
+    },
+    totals: {
+      subtotal: calculatedTotals.subtotal,
+      subtotalDiscountTotal: calculatedTotals.subtotalDiscountTotal,
+      autoServiceChargeTotal: calculatedTotals.autoServiceChargeTotal,
+      serviceChargeTotal: calculatedTotals.serviceChargeTotal,
+      taxTotal: calculatedTotals.taxTotal,
+      paymentTotal: calculatedTotals.paymentTotal,
+      totalDue: calculatedTotals.totalDue,
+    },
   };
+
+  // Store in Simphony Gen2 API format
+  db.checks[checkId] = checkResponse;
+
   save(db);
-  res.status(201).json(db.checks[checkId]);
+  res.status(201).json(checkResponse);
 });
 
 // add items to check
@@ -168,18 +234,51 @@ app.post('/checks/:checkId/items', validateSimphonyHeaders, (req, res) => {
   const check = db.checks?.[checkId];
   if (!check) return res.status(404).json({error: 'check not found'});
 
+  // Add items to menuItems array
   items.forEach(({sku, qty = 1}) => {
-    check.items.push({sku, qty});
+    check.menuItems.push({
+      menuItemId: parseInt(sku.replace('RS-', '')),
+      quantity: qty,
+      unitPrice: price[sku] || 0,
+      total: (price[sku] || 0) * qty,
+    });
   });
 
-  const subtotal = check.items.reduce(
-    (s, i) => s + (price[i.sku] || 0) * i.qty,
-    0
-  );
-  check.subtotal = +subtotal.toFixed(2);
-  check.tax = +(subtotal * TAX).toFixed(2);
-  check.service = +(subtotal * SVC).toFixed(2);
-  check.total = +(subtotal + check.tax + check.service).toFixed(2);
+  // Recalculate totals
+  const subtotal = check.menuItems.reduce((s, i) => s + (i.total || 0), 0);
+  check.totals.subtotal = +subtotal.toFixed(2);
+  check.totals.taxTotal = +(subtotal * TAX).toFixed(2);
+  check.totals.serviceChargeTotal = +(subtotal * SVC).toFixed(2);
+  check.totals.totalDue = +(
+    subtotal +
+    check.totals.taxTotal +
+    check.totals.serviceChargeTotal
+  ).toFixed(2);
+
+  // Update checkPrintedLines
+  check.checkPrintedLines.lines = [
+    `${check.header.checkNumber} STS                            Page 1`,
+    '----------------------------------------',
+    `CHK ${check.header.checkNumber}                           TBL ${check.header.tableName}`,
+    `               ${new Date().toLocaleDateString()}                `,
+    '----------------------------------------',
+    '       DineIn                           ',
+    ...check.menuItems.map(
+      (item) =>
+        ` ${item.quantity} Item ${item.menuItemId}               ${item.total}      `
+    ),
+    `   Subtotal                $${check.totals.subtotal.toFixed(2)}      `,
+    `   Tax                     $${check.totals.taxTotal.toFixed(2)}      `,
+    `   Service                 $${check.totals.serviceChargeTotal.toFixed(
+      2
+    )}      `,
+    `   Total                   $${check.totals.totalDue.toFixed(2)}      `,
+    check.header.status === 'closed'
+      ? '  ----------- Check Closed -----------  '
+      : '  ----------- Check Open -----------  ',
+    `           ${new Date().toLocaleString()}            `,
+  ];
+
   save(db);
   res.json(check);
 });
@@ -205,7 +304,7 @@ app.post(
     const check = db.checks?.[checkId];
     if (!check) return res.status(404).json({error: 'check not found'});
 
-    if (check.status === 'CLOSED') {
+    if (check.header.status === 'closed') {
       return res.status(409).json({error: 'check is already closed'});
     }
 
@@ -223,13 +322,18 @@ app.post(
         postingId = null;
 
       if (autoPost) {
-        // 1) OPERA guest lookup
+        // TODO: VERIFY WITH CUSTOMER - Hotel ID mapping may need to be stored in tenant record
+        // Currently using locRef as hotelId, but this may not be the correct mapping
+        // Customer may need to provide hotelId separately or store it in tenant configuration
+        const hotelId = req.headers['simphony-locref'];
+
+        // 1) OPERA guest lookup using new API
         const qs = new URLSearchParams({
           room: String(roomNumber),
           lastName: String(lastName),
         }).toString();
         const guestResp = await fetch(
-          `http://opera-state:5000/opera/v1/guests?${qs}`
+          `http://opera-state:5000/rsv/v1/hotels/${hotelId}/reservations?${qs}`
         );
         if (!guestResp.ok)
           return res.status(409).json({
@@ -238,16 +342,16 @@ app.post(
         const guest = await guestResp.json();
         reservationId = guest.reservationId;
 
-        // 2) Post folio charge with chosen transaction code
+        // 2) Post folio charge with chosen transaction code using new API
         const postResp = await fetch(
-          `http://opera-state:5000/opera/v1/folios/${encodeURIComponent(
+          `http://opera-state:5000/csh/v1/hotels/${hotelId}/reservations/${encodeURIComponent(
             reservationId
           )}/charges`,
           {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-              amount: check.total,
+              amount: check.totals.totalDue,
               transactionCode: trxCodeToUse,
             }),
           }
@@ -262,7 +366,8 @@ app.post(
       }
 
       // 3) Close the check and persist
-      check.status = 'CLOSED';
+      check.header.status = 'closed';
+      check.header.preparationStatus = 'Packaged';
       save(db);
 
       res.status(202).json({
@@ -272,7 +377,7 @@ app.post(
         postingId,
         reservationId,
         transactionCode: trxCodeToUse,
-        total: check.total,
+        total: check.totals.totalDue,
       });
     } catch (e) {
       res
@@ -291,6 +396,7 @@ app.get('/checks/:checkId', validateSimphonyHeaders, (req, res) => {
     res.status(404).json({error: 'check not found'});
     return;
   }
+
   res.json(check);
 });
 

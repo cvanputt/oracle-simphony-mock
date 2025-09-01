@@ -23,51 +23,127 @@ function save(db) {
   fs.writeFileSync(DB, JSON.stringify(db, null, 2));
 }
 
-// guest lookup
-app.get('/opera/v1/guests', (req, res) => {
-  const {room, lastName} = req.query;
+// Guest/reservation lookup
+app.get('/rsv/v1/hotels/:hotelId/reservations', (req, res) => {
+  const {roomId, surname} = req.query;
+  const {hotelId} = req.params;
+
+  if (!roomId || !surname) {
+    return res
+      .status(400)
+      .json({error: 'roomId and surname query parameters required'});
+  }
+
   const db = load();
-  const key = `${room || ''}|${(lastName || '').toLowerCase()}`;
+  const key = `${roomId || ''}:${(surname || '').toLowerCase()}`;
   const guest = db.guests?.[key];
-  if (!guest)
+
+  if (!guest) {
     return res.status(404).json({error: 'Guest not found or not in-house'});
-  res.json(guest);
-});
+  }
 
-// post folio charge
-app.post('/opera/v1/folios/:reservationId/charges', (req, res) => {
-  const {reservationId} = req.params;
-  const {amount, transactionCode = 'ROOM_SERVICE'} = req.body || {};
-
-  const db = load();
-  db.folios ||= {};
-  const folio = (db.folios[reservationId] ||= {
-    reservationId,
-    window: 1,
-    lines: [],
+  // Return in the new API format
+  res.json({
+    reservationId: guest.reservationId,
+    folioWindow: guest.folioWindow || 1,
+    guestName: guest.guestName,
+    roomNumber: guest.roomNumber,
+    inHouse: guest.inHouse,
+    hotelId: hotelId,
   });
-
-  const postingId = 'POST-' + Math.random().toString(36).slice(2, 8);
-  const line = {
-    postingId,
-    trxCode: transactionCode,
-    amount: Number(amount) || 0,
-  };
-
-  folio.lines.push(line);
-  save(db);
-
-  res.status(201).json({reservationId, postingId, line});
 });
 
-// get folio
-app.get('/opera/v1/folios/:reservationId', (req, res) => {
-  const {reservationId} = req.params;
-  const db = load();
-  const folio = db.folios?.[reservationId];
-  if (!folio) return res.json({reservationId, window: 1, lines: []});
-  res.json(folio);
-});
+// Folio charge posting
+app.post(
+  '/csh/v1/hotels/:hotelId/reservations/:reservationId/charges',
+  (req, res) => {
+    const {reservationId, hotelId} = req.params;
+    const {amount, transactionCode = 'ROOM_SERVICE'} = req.body || {};
+
+    const db = load();
+    db.folios ||= {};
+    const folio = (db.folios[reservationId] ||= {
+      reservationId,
+      window: 1,
+      lines: [],
+    });
+
+    const postingId = 'POST-' + Math.random().toString(36).slice(2, 8);
+    const line = {
+      postingId,
+      trxCode: transactionCode,
+      amount: Number(amount) || 0,
+      hotelId: hotelId,
+    };
+
+    folio.lines.push(line);
+    save(db);
+
+    res.status(201).json({reservationId, postingId, line, hotelId});
+  }
+);
+
+// Folio retrieval with query parameters
+app.get(
+  '/csh/v1/hotels/:hotelId/reservations/:reservationId/folios',
+  (req, res) => {
+    const {reservationId, hotelId} = req.params;
+    const {
+      folioWindowNo = '1',
+      reservationBalanceOnly = 'false',
+      fetchInstructions,
+    } = req.query;
+
+    const db = load();
+    const folio = db.folios?.[reservationId];
+
+    if (!folio) {
+      return res.json({
+        reservationId,
+        hotelId,
+        folioWindowNo: parseInt(folioWindowNo),
+        lines: [],
+        totalBalance: 0,
+      });
+    }
+
+    // Calculate total balance if requested
+    let totalBalance = 0;
+    if (fetchInstructions && fetchInstructions.includes('Totalbalance')) {
+      totalBalance = folio.lines.reduce((sum, line) => sum + line.amount, 0);
+    }
+
+    // Filter instructions if needed
+    let responseData = {
+      reservationId,
+      hotelId,
+      folioWindowNo: parseInt(folioWindowNo),
+      lines: folio.lines,
+      totalBalance,
+    };
+
+    // Add specific data based on fetchInstructions
+    if (fetchInstructions) {
+      if (fetchInstructions.includes('Payment')) {
+        responseData.payments = folio.lines.filter((line) =>
+          line.trxCode.startsWith('PAY')
+        );
+      }
+      if (fetchInstructions.includes('Postings')) {
+        responseData.postings = folio.lines.filter(
+          (line) => !line.trxCode.startsWith('PAY')
+        );
+      }
+      if (fetchInstructions.includes('Transactioncodes')) {
+        responseData.transactionCodes = [
+          ...new Set(folio.lines.map((line) => line.trxCode)),
+        ];
+      }
+    }
+
+    res.json(responseData);
+  }
+);
 
 // helper to seed a guest record
 app.post('/__seed/guest', (req, res) => {

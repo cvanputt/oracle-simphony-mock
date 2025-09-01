@@ -1,31 +1,14 @@
 [
   {
-    "httpRequest": {
-      "method": "GET",
-      "path": "/opera/v1/guests",
-      "queryStringParameters": {
-        "room": ["203"],
-        "lastName": ["(?i)Nguyen"]
-      }
-    },
-    "httpResponse": {
-      "statusCode": 200,
-      "headers": {"Content-Type": ["application/json"]},
-      "body": {
-        "reservationId": "RES-555",
-        "folioWindow": 1,
-        "guestName": "Taylor Nguyen",
-        "roomNumber": "203",
-        "inHouse": true
-      }
-    }
-  },
-  {
-    "httpRequest": {"path": "/opera/v1/guests"},
+    "httpRequest": {"path": "/rsv/v1/hotels/.*/reservations"},
     "httpForward": {"host": "opera-state", "port": 5000, "scheme": "HTTP"}
   },
   {
-    "httpRequest": {"path": "/opera/v1/folios/.*"},
+    "httpRequest": {"path": "/csh/v1/hotels/.*/reservations/.*/charges"},
+    "httpForward": {"host": "opera-state", "port": 5000, "scheme": "HTTP"}
+  },
+  {
+    "httpRequest": {"path": "/csh/v1/hotels/.*/reservations/.*/folios"},
     "httpForward": {"host": "opera-state", "port": 5000, "scheme": "HTTP"}
   }
 ]

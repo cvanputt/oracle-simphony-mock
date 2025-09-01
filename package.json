@@ -1,0 +1,8 @@
+{
+  "name": "oracle-simphony-mock",
+  "version": "1.0.0",
+  "description": "Oracle Hospitality Mock Environment for Simphony and OPERA",
+  "scripts": {
+    "test-guest-lookup": "node test-guest-lookup.js"
+  }
+}

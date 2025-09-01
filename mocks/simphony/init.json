@@ -1117,7 +1117,12 @@
   {
     "httpRequest": {
       "method": "GET",
-      "path": " "
+      "path": "/checks/.*",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
     },
     "httpForward": {
       "host": "simphony-state",
@@ -1127,8 +1132,24 @@
   },
   {
     "httpRequest": {
-      "method": "GET",
+      "method": "DELETE",
       "path": "/checks/.*",
+      "headers": {
+        "Simphony-LocRef": [".*"],
+        "Simphony-OrgShortName": [".*"],
+        "Simphony-RvcRef": [".*"]
+      }
+    },
+    "httpForward": {
+      "host": "simphony-state",
+      "port": 5000,
+      "scheme": "HTTP"
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/checks/.*/round",
       "headers": {
         "Simphony-LocRef": [".*"],
         "Simphony-OrgShortName": [".*"],
@@ -1185,6 +1206,39 @@
     },
     "httpForward": {
       "host": "simphony-state",
+      "port": 5000,
+      "scheme": "HTTP"
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/rsv/v1/hotels/.*/reservations"
+    },
+    "httpForward": {
+      "host": "opera-state",
+      "port": 5000,
+      "scheme": "HTTP"
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "POST",
+      "path": "/csh/v1/hotels/.*/reservations/.*/charges"
+    },
+    "httpForward": {
+      "host": "opera-state",
+      "port": 5000,
+      "scheme": "HTTP"
+    }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/csh/v1/hotels/.*/reservations/.*/folios"
+    },
+    "httpForward": {
+      "host": "opera-state",
       "port": 5000,
       "scheme": "HTTP"
     }
