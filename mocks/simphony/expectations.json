@@ -996,9 +996,15 @@
     "scheme" : "HTTP"
   },
   "httpRequest" : {
-    "method" : "GET"
+    "method" : "GET",
+    "path" : "/checks/.*",
+    "headers" : {
+      "Simphony-RvcRef" : [ ".*" ],
+      "Simphony-OrgShortName" : [ ".*" ],
+      "Simphony-LocRef" : [ ".*" ]
+    }
   },
-  "id" : "3e8be7be-a295-31d1-bd69-e913d3b9f852",
+  "id" : "5c04c7cf-2961-3f24-88eb-f42a03a39809",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true
@@ -1013,7 +1019,7 @@
     "scheme" : "HTTP"
   },
   "httpRequest" : {
-    "method" : "GET",
+    "method" : "DELETE",
     "path" : "/checks/.*",
     "headers" : {
       "Simphony-RvcRef" : [ ".*" ],
@@ -1021,7 +1027,30 @@
       "Simphony-LocRef" : [ ".*" ]
     }
   },
-  "id" : "5c04c7cf-2961-3f24-88eb-f42a03a39809",
+  "id" : "4c31f58c-1b30-3796-98c4-458bfd01678d",
+  "priority" : 0,
+  "timeToLive" : {
+    "unlimited" : true
+  },
+  "times" : {
+    "unlimited" : true
+  }
+}, {
+  "httpForward" : {
+    "host" : "simphony-state",
+    "port" : 5000,
+    "scheme" : "HTTP"
+  },
+  "httpRequest" : {
+    "method" : "POST",
+    "path" : "/checks/.*/round",
+    "headers" : {
+      "Simphony-RvcRef" : [ ".*" ],
+      "Simphony-OrgShortName" : [ ".*" ],
+      "Simphony-LocRef" : [ ".*" ]
+    }
+  },
+  "id" : "1d2c0d8c-3f3d-3314-91fb-c6bc722f43a2",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true
