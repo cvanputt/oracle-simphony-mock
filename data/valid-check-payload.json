@@ -1,0 +1,232 @@
+{
+  "header": {
+    "orgShortName": "TEST_ORG",
+    "locRef": "TEST_LOC",
+    "rvcRef": 1,
+    "idempotencyId": "1234567890abcdef1234567890abcdef",
+    "checkEmployeeRef": 1,
+    "orderTypeRef": 1,
+    "orderChannelRef": 1,
+    "tableName": "Table 5",
+    "tableGroupNumber": 1,
+    "guestCount": 2,
+    "language": "en",
+    "isTrainingCheck": false,
+    "informationLines": [
+      "Special dietary requirements",
+      "Birthday celebration"
+    ],
+    "paymentStoreId": "STORE001",
+    "openTime": "2024-01-15T10:30:00.000Z",
+    "status": "open",
+    "preparationStatus": "Uninitialized"
+  },
+  "menuItems": [
+    {
+      "menuItemId": 1001,
+      "definitionSequence": 1,
+      "name": "Classic Burger",
+      "quantity": 1,
+      "unitPrice": 12.99,
+      "priceSequence": 1,
+      "total": 12.99,
+      "seat": 1,
+      "referenceText": "No pickles",
+      "surcharge": 0,
+      "condiments": [
+        {
+          "condimentId": 2001,
+          "name": "Extra Cheese",
+          "quantity": 1,
+          "unitPrice": 1.5
+        }
+      ],
+      "extensions": [
+        {
+          "displayName": "Cooking Preference",
+          "appName": "Kitchen",
+          "dataName": "cooking",
+          "dataType": "string",
+          "data": "medium-rare",
+          "options": ["printInKitchen"]
+        }
+      ]
+    },
+    {
+      "menuItemId": 1002,
+      "definitionSequence": 2,
+      "name": "Caesar Salad",
+      "quantity": 1,
+      "unitPrice": 8.99,
+      "priceSequence": 1,
+      "total": 8.99,
+      "seat": 2,
+      "referenceText": "Dressing on side",
+      "surcharge": 0,
+      "extensions": []
+    }
+  ],
+  "comboMeals": [
+    {
+      "comboMealId": 3001,
+      "seat": 1,
+      "comboItem": {
+        "menuItemId": 3001,
+        "definitionSequence": 1,
+        "name": "Burger Combo",
+        "quantity": 1,
+        "unitPrice": 15.99,
+        "priceSequence": 1,
+        "total": 15.99,
+        "seat": 1,
+        "referenceText": "Combo meal",
+        "surcharge": 0,
+        "extensions": []
+      },
+      "mainItem": {
+        "menuItemId": 1001,
+        "definitionSequence": 1,
+        "name": "Classic Burger",
+        "quantity": 1,
+        "unitPrice": 12.99,
+        "priceSequence": 1,
+        "total": 12.99,
+        "seat": 1,
+        "referenceText": "No pickles",
+        "surcharge": 0,
+        "extensions": []
+      },
+      "sideItems": [
+        {
+          "menuItemId": 2001,
+          "definitionSequence": 1,
+          "name": "French Fries",
+          "quantity": 1,
+          "unitPrice": 3.99,
+          "priceSequence": 1,
+          "total": 3.99,
+          "seat": 1,
+          "referenceText": "Regular size",
+          "surcharge": 0,
+          "extensions": []
+        }
+      ],
+      "extensions": [
+        {
+          "displayName": "Combo Type",
+          "appName": "Kitchen",
+          "dataName": "combo_type",
+          "dataType": "string",
+          "data": "value_meal",
+          "options": ["printInKitchen", "includeInApiResponse"]
+        }
+      ]
+    }
+  ],
+  "discounts": [
+    {
+      "discountId": 4001,
+      "name": "Senior Discount",
+      "seat": 1,
+      "referenceText": "10% off",
+      "total": 2.5,
+      "isAutomatic": false,
+      "extensions": [
+        {
+          "displayName": "Discount Reason",
+          "appName": "POS",
+          "dataName": "reason",
+          "dataType": "string",
+          "data": "senior_citizen",
+          "options": ["printOnReceipt"]
+        }
+      ]
+    }
+  ],
+  "serviceCharges": [
+    {
+      "serviceChargeId": 5001,
+      "name": "Service Charge",
+      "total": 3.5,
+      "seat": 1,
+      "referenceText": "18% service charge",
+      "extensions": []
+    }
+  ],
+  "taxes": [
+    {
+      "taxRateId": "TAX001",
+      "name": "Sales Tax",
+      "total": 2.75
+    }
+  ],
+  "tenders": [
+    {
+      "tenderId": 6001,
+      "name": "Credit Card",
+      "total": 25.0,
+      "chargedTipTotal": 4.5,
+      "referenceText": "Visa ending in 1234",
+      "paymentData": {
+        "type": "spi.v1",
+        "data": {
+          "transDateTime": "2024-01-15T10:35:00.000Z",
+          "transType": "01",
+          "transAmount": 25.0,
+          "tipTotal": 4.5,
+          "transCurrency": "USD",
+          "siteId": "SITE001",
+          "transToken": "tok_1234567890abcdef",
+          "issuerId": "VISA",
+          "pan": "****1234",
+          "expiryDate": "1225",
+          "entryMode": "09",
+          "cardPresent": "2",
+          "authCode": "AUTH123",
+          "alternateTransRef": "psp_ref_123456",
+          "modificationReference": "ORD-1001"
+        }
+      },
+      "extensions": []
+    }
+  ],
+  "extensions": [
+    {
+      "displayName": "Order Source",
+      "appName": "POS",
+      "dataName": "source",
+      "dataType": "string",
+      "data": "mobile_app",
+      "options": ["includeInApiResponse"]
+    },
+    {
+      "displayName": "Customer Notes",
+      "appName": "Kitchen",
+      "dataName": "notes",
+      "dataType": "string",
+      "data": "Customer prefers quick service",
+      "options": ["printInKitchen"]
+    }
+  ],
+  "notificationOptions": {
+    "enabled": true,
+    "url": "https://api.example.com/notifications",
+    "keyId": "notif_key_123",
+    "key": "secret_key_456"
+  },
+  "checkNotifications": [
+    {
+      "id": "notif_001",
+      "creationDate": "2024-01-15T10:30:00.000Z",
+      "messageType": "CheckNotification",
+      "resource": {
+        "type": "check",
+        "id": "CHK-1234"
+      },
+      "data": {
+        "checkId": "CHK-1234",
+        "status": "created"
+      }
+    }
+  ]
+}

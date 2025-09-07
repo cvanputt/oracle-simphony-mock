@@ -1,0 +1,18 @@
+{
+  "header": {
+    "orgShortName": "TEST_ORG",
+    "locRef": "TEST_LOC",
+    "rvcRef": 1,
+    "idempotencyId": "1234567890abcdef1234567890abcdef",
+    "checkEmployeeRef": 1,
+    "orderTypeRef": 1
+  },
+  "menuItems": [
+    {
+      "menuItemId": 1001,
+      "name": "Classic Burger",
+      "quantity": 1,
+      "unitPrice": 12.99
+    }
+  ]
+}

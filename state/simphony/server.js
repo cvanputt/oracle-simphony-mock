@@ -164,10 +164,11 @@ app.post('/checks', validateSimphonyHeaders, (req, res) => {
   db.checks ||= {};
   const checkId = 'CHK-' + Math.floor(1000 + Math.random() * 9000);
   const checkNumber = Math.floor(1000 + Math.random() * 9000);
+  console.log('req.body', JSON.stringify(req.body, null, 2));
 
   const calculatedTotals = calculateTotals(req.body);
 
-  // Create response in Simphony Gen2 API format
+  // Create response in Simphony Gen2 API format matching the official model
   const checkResponse = {
     header: {
       orgShortName: req.headers['simphony-orgshortname'] || 'TEST_ORG',
@@ -179,11 +180,19 @@ app.post('/checks', validateSimphonyHeaders, (req, res) => {
       checkName: req.body.header?.checkName || `Check ${checkNumber}`,
       checkEmployeeRef: req.body.header?.checkEmployeeRef || 1,
       orderTypeRef: req.body.header?.orderTypeRef || 1,
+      orderChannelRef: req.body.header?.orderChannelRef || 1,
       tableName:
         req.body.header?.tableName ||
         `Table ${Math.floor(Math.random() * 20) + 1}`,
+      tableGroupNumber: req.body.header?.tableGroupNumber || 1,
       guestCount: req.body.header?.guestCount || 1,
+      language: req.body.header?.language || 'en',
+      isTrainingCheck: req.body.header?.isTrainingCheck || false,
+      informationLines: req.body.header?.informationLines || [],
+      paymentStoreId: req.body.header?.paymentStoreId || 'STORE001',
       openTime: new Date().toISOString(),
+      fireTime: req.body.header?.fireTime || null,
+      pickupTime: req.body.header?.pickupTime || null,
       status: 'open',
       preparationStatus: 'Uninitialized',
     },
