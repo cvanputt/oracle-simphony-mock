@@ -218,7 +218,7 @@
     },
     "body" : {
       "menuItems" : [ {
-        "menuItemId" : "myb:store2:dining",
+        "menuItemId" : 1001,
         "name" : {
           "en-US" : "Classic Cheeseburger",
           "es-ES" : "Hamburguesa Clásica con Queso"
@@ -981,7 +981,7 @@
       "rvcRef" : 1
     }
   },
-  "id" : "132c7d4c-fc45-3ee7-908d-066a5509d41c",
+  "id" : "9b12235c-e332-3f9e-a811-929d8d490e98",
   "priority" : 0,
   "timeToLive" : {
     "unlimited" : true

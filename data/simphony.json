@@ -3741,6 +3741,681 @@
         "paymentTotal": 0,
         "totalDue": null
       }
+    },
+    "CHK-4150": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-4150",
+        "idempotencyId": "cb6e3e0015c44fbf883c788db37783e4",
+        "checkNumber": 7884,
+        "checkName": "rmsvc-203-nguye-1757299975448",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 20",
+        "guestCount": 1,
+        "openTime": "2025-09-08T02:52:56.218Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "7884 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 7884                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 2:52:56 AM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-6908": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-6908",
+        "idempotencyId": "97bb7da61d0b41b1babbdbecf1ff6198",
+        "checkNumber": 9951,
+        "checkName": "rmsvc-222-jane-1757343346657",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 10",
+        "guestCount": 1,
+        "openTime": "2025-09-08T14:55:47.037Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1,
+          "quantity": 1,
+          "referenceText": "no onions"
+        }
+      ],
+      "comboMeals": [],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "9951 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 9951                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 2:55:47 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": null,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": null
+      }
+    },
+    "CHK-6922": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-6922",
+        "idempotencyId": "90c0ec66dbbb47f6a469817ea196d900",
+        "checkNumber": 2198,
+        "checkName": "rmsvc-222-doey-1757344628654",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 7",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:17:08.894Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1004,
+          "name": "Chicken Wings",
+          "quantity": 2,
+          "unitPrice": 11.99
+        }
+      ],
+      "comboMeals": [],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "2198 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 2198                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:17:08 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": null,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": null
+      }
+    },
+    "CHK-2395": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-2395",
+        "idempotencyId": "1e1478ce88e740f08cb850ff50afc600",
+        "checkNumber": 7781,
+        "checkName": "rmsvc-203-nguye-1757344760804",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 9",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:19:20.954Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "7781 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 7781                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:19:20 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-7394": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-7394",
+        "idempotencyId": "0d446ae885a54c888d1aaaf4b659a6cb",
+        "checkNumber": 2249,
+        "checkName": "rmsvc-203-nguye-1757344967042",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 15",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:22:47.122Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "2249 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 2249                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:22:47 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-2003": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-2003",
+        "idempotencyId": "b7b3c90bbd5a4b42bf3e68628deea535",
+        "checkNumber": 9971,
+        "checkName": "rmsvc-203-nguye-1757345017002",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 17",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:23:37.351Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "9971 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 9971                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:23:37 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-9586": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-9586",
+        "idempotencyId": "5b16f8c4f64040c395d3cf277af685e4",
+        "checkNumber": 8668,
+        "checkName": "rmsvc-203-nguye-1757345094384",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 9",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:24:54.496Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "8668 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 8668                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:24:54 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-5776": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-5776",
+        "idempotencyId": "b1a8f5084ba245caa4b2abf0f0887b5a",
+        "checkNumber": 5386,
+        "checkName": "rmsvc-203-nguye-1757346255836",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 6",
+        "guestCount": 1,
+        "openTime": "2025-09-08T15:44:16.890Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1001,
+          "name": "Classic Cheeseburger",
+          "quantity": 2,
+          "unitPrice": 12.99,
+          "total": 25.98,
+          "seat": 1
+        }
+      ],
+      "comboMeals": [
+        {
+          "comboMealId": 1,
+          "seat": 3,
+          "comboItem": {
+            "menuItemId": 1002,
+            "name": "Burger Combo",
+            "quantity": 1,
+            "unitPrice": 15.99,
+            "total": 15.99,
+            "seat": 0
+          },
+          "mainItem": {
+            "menuItemId": 1003,
+            "name": "Classic Cheeseburger",
+            "quantity": 1,
+            "unitPrice": 12.99,
+            "total": 12.99,
+            "seat": 0
+          },
+          "sideItems": [
+            {
+              "menuItemId": 1004,
+              "name": "French Fries",
+              "quantity": 1,
+              "unitPrice": 3,
+              "total": 3,
+              "seat": 0
+            }
+          ]
+        }
+      ],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "5386 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 5386                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 3:44:16 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 25.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 25.98
+      }
+    },
+    "CHK-5671": {
+      "header": {
+        "orgShortName": "mock-org-short-name",
+        "locRef": "mock-location-001",
+        "rvcRef": 1,
+        "checkRef": "CHK-5671",
+        "idempotencyId": "6a8563da75754ff6adb52126497d4cc0",
+        "checkNumber": 5239,
+        "checkName": "rmsvc-49-monta-1757348125803",
+        "checkEmployeeRef": 1,
+        "orderTypeRef": 1,
+        "tableName": "Table 3",
+        "guestCount": 1,
+        "openTime": "2025-09-08T16:15:25.966Z",
+        "status": "open",
+        "preparationStatus": "Uninitialized"
+      },
+      "menuItems": [
+        {
+          "menuItemId": 1004,
+          "name": "Chicken Wings",
+          "quantity": 2,
+          "unitPrice": 11.99,
+          "total": 23.98
+        }
+      ],
+      "comboMeals": [],
+      "discounts": [],
+      "serviceCharges": [],
+      "extensions": [],
+      "taxes": [],
+      "tenders": [],
+      "checkPrintedLines": {
+        "lines": [
+          "5239 STS                            Page 1",
+          "----------------------------------------",
+          "CHK 5239                           TBL 1",
+          "               9/8/2025                ",
+          "----------------------------------------",
+          "       DineIn                           ",
+          "  ----------- Check Open -----------  ",
+          "           9/8/2025, 4:15:26 PM            "
+        ]
+      },
+      "totals": {
+        "subtotal": 23.98,
+        "subtotalDiscountTotal": 0,
+        "autoServiceChargeTotal": 0,
+        "serviceChargeTotal": null,
+        "taxTotal": null,
+        "paymentTotal": 0,
+        "totalDue": 23.98
+      }
     }
   }
 }
